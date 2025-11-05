@@ -13,3 +13,24 @@
 </body>
 
 </html>
+document.addEventListener('DOMContentLoaded', function() {
+    const actionButton = document.getElementById('actionButton');
+    const responseMessage = document.getElementById('responseMessage');
+
+    actionButton.addEventListener('click', function() {
+        responseMessage.textContent = 'Simulação Robótica Iniciada... Processando Dados... Concluído!';
+        
+        // Você pode adicionar mais lógica aqui, como:
+        // - Alterar classes CSS para animar elementos
+        // - Fazer requisições a APIs para dados reais (em um projeto mais avançado)
+        // - Controlar elementos visuais que representem um robô
+        
+        // Exemplo: desabilitar o botão por um curto período
+        actionButton.disabled = true;
+        setTimeout(() => {
+            responseMessage.textContent = 'Aguardando novo comando...';
+            actionButton.disabled = false;
+        }, 3000); // Reabilita o botão após 3 segundos
+    });
+});
+

@@ -1,36 +1,168 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robótica 4WD: Componentes do Seguidor de Linha (Completo)</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        #componentes-container {
+            display: flex; /* Organiza os cards lado a lado */
+            flex-wrap: wrap; /* Permite quebra de linha para telas menores */
+            justify-content: center; /* Centraliza os cards */
+            padding: 20px;
+            gap: 25px; /* Espaço entre os cards */
+        }
+
+        .component-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 25px;
+            width: 300px; /* Largura padrão */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .component-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .component-card h2 {
+            color: #0056b3;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .toggle-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            width: 100%; /* Botão em largura total */
+        }
+
+        .toggle-btn:hover {
+            background-color: #1e7e34;
+        }
+
+        .detalhes {
+            /* Estado inicial: escondido */
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            border-left: 4px solid #007bff;
+            background-color: #e9f7ff;
+            border-radius: 4px;
+        }
+
+        /* Classe CSS que o JavaScript adicionará para exibir o texto */
+        .detalhes.active {
+            display: block; 
+        }
+    </style>
 </head>
 <body>
-   <center>
-    <h1>Site Vercel</h1>
-   </center> 
-    <h2>Ryan aluno</h2>
+    <header>
+        <h1>🤖 Componentes do Seguidor de Linha 4WD</h1>
+        <p>Clique em "Detalhes" para entender a função de cada peça essencial.</p>
+    </header>
+
+    <main id="componentes-container">
+        
+        <div class="component-card">
+            <h2>🧠 Microcontrolador (Arduino/ESP)</h2>
+            <p>O **cérebro** do robô, responsável pela execução da lógica de controle.</p>
+            <button class="toggle-btn" data-info="microcontrolador">Detalhes</button>
+            <p class="detalhes" id="microcontrolador-info">
+                **Função:** Recebe continuamente os dados analógicos/digitais dos sensores de linha, processa esses dados de acordo com o algoritmo de navegação (PID ou ON/OFF) e, em seguida, envia os sinais PWM para o driver de motor, ajustando a direção e a velocidade das rodas.
+            </p>
+        </div>
+
+        <div class="component-card">
+            <h2>👁️ Módulo Sensor de Linha (Infravermelho)</h2>
+            <p>Os **olhos** do robô, detectando a linha preta ou a pista branca.</p>
+            <button class="toggle-btn" data-info="sensor">Detalhes</button>
+            <p class="detalhes" id="sensor-info">
+                **Função:** Cada sensor infravermelho emite luz e mede o reflexo. A linha preta **absorve** a luz (retorno baixo), e a pista branca **reflete** a luz (retorno alto). O microcontrolador usa a diferença nesses retornos para saber onde a linha está posicionada em relação ao robô.
+            </p>
+        </div>
+
+        <div class="component-card">
+            <h2>💪 Ponte H (Driver de Motor)</h2>
+            <p>O **músculo** eletrônico que controla a potência e o sentido dos motores.</p>
+            <button class="toggle-btn" data-info="ponteh">Detalhes</button>
+            <p class="detalhes" id="ponteh-info">
+                **Função:** O microcontrolador não fornece corrente suficiente para os motores. A Ponte H (como L298N ou TB6612FNG) é um circuito integrado que atua como um **amplificador de corrente** e um **interruptor**. Ela permite que os motores girem para frente ou para trás, e utiliza os sinais PWM (Pulse Width Modulation) do microcontrolador para controlar a velocidade.
+            </p>
+        </div>
+
+        <div class="component-card">
+            <h2>⚙️ Chassi e Motores 4WD</h2>
+            <p>A **estrutura física** e o **sistema de locomoção** com tração total.</p>
+            <button class="toggle-btn" data-info="chassi">Detalhes</button>
+            <p class="detalhes" id="chassi-info">
+                **Função:** O **Chassi** é a plataforma que suporta todos os componentes. Os **Motores 4WD (quatro rodas motrizes)** proporcionam maior **tração** e **estabilidade** em comparação com sistemas 2WD. Isso é crucial para manter a velocidade e precisão em curvas ou superfícies menos uniformes.
+            </p>
+        </div>
+    </main>
+
+    <script>
+        // Aguarda o carregamento completo do HTML
+        document.addEventListener('DOMContentLoaded', () => {
+            // Seleciona todos os botões de 'Detalhes' na página
+            const toggleButtons = document.querySelectorAll('.toggle-btn');
+
+            // Adiciona a funcionalidade de clique a cada botão
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Obtém o ID do componente alvo a partir do atributo 'data-info'
+                    const infoId = button.getAttribute('data-info');
+                    
+                    // Constrói o ID completo do elemento de detalhes (ex: 'microcontrolador-info')
+                    const detalhesElement = document.getElementById(infoId + '-info');
+
+                    if (detalhesElement) {
+                        // Alterna a classe 'active': exibe se estava escondido, esconde se estava visível.
+                        detalhesElement.classList.toggle('active');
+
+                        // Atualiza o texto do botão com base no estado de exibição
+                        if (detalhesElement.classList.contains('active')) {
+                            button.textContent = 'Esconder Detalhes';
+                        } else {
+                            button.textContent = 'Detalhes';
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
-
 </html>
-document.addEventListener('DOMContentLoaded', function() {
-    const actionButton = document.getElementById('actionButton');
-    const responseMessage = document.getElementById('responseMessage');
-
-    actionButton.addEventListener('click', function() {
-        responseMessage.textContent = 'Simulação Robótica Iniciada... Processando Dados... Concluído!';
-        
-        // Você pode adicionar mais lógica aqui, como:
-        // - Alterar classes CSS para animar elementos
-        // - Fazer requisições a APIs para dados reais (em um projeto mais avançado)
-        // - Controlar elementos visuais que representem um robô
-        
-        // Exemplo: desabilitar o botão por um curto período
-        actionButton.disabled = true;
-        setTimeout(() => {
-            responseMessage.textContent = 'Aguardando novo comando...';
-            actionButton.disabled = false;
-        }, 3000); // Reabilita o botão após 3 segundos
-    });
-});
-

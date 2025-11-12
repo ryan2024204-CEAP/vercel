@@ -1,9 +1,16 @@
+## 🤖 Design Estilizado de Robótica Móvel (Código Completo)
+
+Aqui está o código completo em um único arquivo HTML, incluindo o CSS (`<style>`) e o JavaScript (`<script>`), com explicações detalhadas sobre os componentes dos carrinhos Seguidor de Linha, 2WD e 4WD. As explicações de cada função estão detalhadas e sem asteriscos.
+
+Você pode salvar este código como **`index.html`** e abri-lo diretamente no seu navegador.
+
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robótica Móvel - Linha e Tração</title>
+    <title>Robótica Móvel - Componentes e Tração</title>
     
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     
@@ -216,10 +223,11 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
             border: 2px solid var(--color-border-dark);
             min-height: 250px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            text-align: left;
+        }
+
+        #details-content {
+             line-height: 1.7; /* Aumenta a legibilidade do texto detalhado */
         }
 
         #details-content h4 {
@@ -228,16 +236,30 @@
             color: var(--color-accent-cyan);
             margin-bottom: 15px;
             text-transform: uppercase;
+            text-align: center;
+        }
+        
+        #details-content h5 {
+            font-family: var(--font-heading);
+            font-size: 1.2em;
+            color: var(--color-primary-blue);
+            margin-top: 25px;
+            margin-bottom: 5px;
         }
 
         #details-content p {
-            font-size: 1.1em;
+            font-size: 1em;
             color: var(--color-text-light);
-            line-height: 1.8;
+            line-height: 1.6;
+            margin-left: 20px;
+            margin-bottom: 10px;
         }
-
-        #details-content p:last-of-type {
-            margin-top: 20px;
+        
+        #details-content .intro-text {
+            text-align: center;
+            font-style: italic;
+            color: var(--color-text-muted);
+            margin-bottom: 30px;
         }
 
         /* --- Footer --- */
@@ -279,7 +301,7 @@
 <header class="main-header">
             <nav class="navbar">
                 <div class="logo">
-                    <i class="fas fa-robot"></i> **TechDrive**
+                    <i class="fas fa-robot"></i> TechDrive
                 </div>
             </nav>
         </header>
@@ -288,7 +310,7 @@
 <section id="hero" class="hero-section">
             <div class="container hero-content">
                 <h1 class="hero-title">Explorando a Robótica Móvel</h1>
-                <p class="hero-subtitle">Entenda as diferenças entre carrinhos seguidores de linha e sistemas de tração 2WD e 4WD.</p>
+                <p class="hero-subtitle">Entenda as diferenças e funções de cada componente nos sistemas de tração e navegação.</p>
                 <a href="#concepts" class="btn-primary">Conhecer os Tipos <i class="fas fa-arrow-down"></i></a>
             </div>
         </section>
@@ -302,22 +324,22 @@
 <div class="concept-card" id="lineFollower">
                         <i class="fas fa-route fa-3x"></i>
                         <h3>Seguidor de Linha</h3>
-                        <p>Robôs programados para seguir um caminho preto (ou claro) pré-determinado usando **sensores de refletância**. Eles são essenciais para competições de robótica e automação em ambientes controlados, focando em **precisão e algoritmo**.</p>
-                        <button class="btn-detail" data-type="lineFollower">Ver Detalhes</button>
+                        <p>Robôs programados para seguir um caminho pré-determinado usando sensores. Essenciais para automação e competições de precisão.</p>
+                        <button class="btn-detail" data-type="lineFollower">Ver Componentes</button>
                     </div>
                     
 <div class="concept-card" id="twoWD">
                         <i class="fas fa-car-side fa-3x"></i>
-                        <h3>Carrinho 2WD (Two-Wheel Drive)</h3>
-                        <p>Possui **duas rodas motoras** (geralmente traseiras) e uma roda boba ou caster para suporte. É simples, leve e ideal para **superfícies planas**. São fáceis de programar e muito comuns para projetos introdutórios de robótica.</p>
-                        <button class="btn-detail" data-type="twoWD">Ver Detalhes</button>
+                        <h3>Carrinho 2WD</h3>
+                        <p>Design de tração simples com duas rodas motoras. Ideal para projetos introdutórios, leves e superfícies planas.</p>
+                        <button class="btn-detail" data-type="twoWD">Ver Componentes</button>
                     </div>
                     
 <div class="concept-card" id="fourWD">
                         <i class="fas fa-truck-monster fa-3x"></i>
-                        <h3>Carrinho 4WD (Four-Wheel Drive)</h3>
-                        <p>Possui **quatro rodas motoras independentes**. Isso oferece **maior tração, estabilidade e capacidade de lidar com obstáculos e terrenos irregulares**. São utilizados em robótica avançada e aplicações *off-road*.</p>
-                        <button class="btn-detail" data-type="fourWD">Ver Detalhes</button>
+                        <h3>Carrinho 4WD</h3>
+                        <p>Possui quatro rodas motoras independentes. Oferece máxima tração, estabilidade e capacidade para terrenos irregulares.</p>
+                        <button class="btn-detail" data-type="fourWD">Ver Componentes</button>
                     </div>
                 </div>
             </div>
@@ -325,10 +347,10 @@
         
 <section id="details-view" class="common-section">
             <div class="container">
-                <h2 class="section-title">Análise Técnica</h2>
+                <h2 class="section-title">Análise Técnica dos Componentes</h2>
                 <div class="details-box">
                     <div id="details-content">
-                        <p>Selecione um dos tipos de robôs acima para ver sua explicação técnica detalhada.</p>
+                        <p class="intro-text">Selecione um dos tipos de robôs acima para ver a função detalhada de cada componente.</p>
                     </div>
                 </div>
             </div>
@@ -351,30 +373,33 @@
             // Mapeamento dos detalhes (o conteúdo que será exibido)
             const conceptsDetails = {
                 lineFollower: {
-                    title: "Seguidor de Linha: Precisão no Trajeto",
+                    title: "Seguidor de Linha: Precisão e Sensores",
                     description: [
-                        "**Princípio:** Utiliza sensores (geralmente infravermelho) para detectar a diferença de refletância entre a linha (escura) e o chão (claro).",
-                        "**Vantagens:** Alta precisão, baixo custo para aplicações simples, excelente para ambientes controlados (pistas, fábricas).",
-                        "**Desvantagens:** Não funciona em ambientes sem linha ou com pouca diferença de cor. Limitado a percursos pré-definidos.",
-                        "**Componentes-chave:** Sensores IR, Microcontrolador (Arduino/Raspberry Pi), Dois motores DC."
+                        { comp: "Princípio de Funcionamento", func: "É um robô autônomo que segue uma linha escura ou clara pré-determinada. O controle de movimento é baseado no feedback contínuo dos sensores para corrigir a direção." },
+                        { comp: "Sensores de Refletância Infravermelho (IR)", func: "Esses sensores emitem luz IR e medem a intensidade refletida. Superfícies escuras absorvem a luz (retorno baixo), enquanto superfícies claras ou a linha refletem (retorno alto). O robô usa a diferença para saber se está sobre, à esquerda ou à direita da linha." },
+                        { comp: "Microcontrolador (Cérebro)", func: "É o processador principal (exemplo: Arduino, ESP32). Ele lê os dados de todos os sensores IR, executa o algoritmo de controle (PID, proporcional, etc.) e envia os comandos de velocidade e direção para os motores através do driver." },
+                        { comp: "Driver de Motor (Ponte H)", func: "Circuito eletrônico que recebe o sinal de controle de baixa potência do Microcontrolador e o converte em energia de alta potência necessária para movimentar os motores DC. Também permite a inversão da polaridade para fazer o motor girar para frente ou para trás." },
+                        { comp: "Motores DC", func: "Convertem energia elétrica em movimento rotacional (mecânico). Eles são conectados diretamente às rodas principais para fornecer a tração necessária ao movimento." }
                     ]
                 },
                 twoWD: {
-                    title: "2WD: Simplicidade e Agilidade",
+                    title: "Carrinho 2WD: Simplicidade e Agilidade",
                     description: [
-                        "**Princípio:** Tração fornecida por dois motores nas rodas. A direção é controlada pela diferença de velocidade entre as rodas (patinagem).",
-                        "**Vantagens:** Design simples, leve, baixo consumo de energia. Perfeito para introdução à robótica e projetos de código aberto.",
-                        "**Desvantagens:** Baixa tração em terrenos escorregadios ou irregulares. Menos estável em altas velocidades ou curvas fechadas.",
-                        "**Componentes-chave:** Dois motores DC/Servo, Chassi leve, Roda Caster (ou roda boba)."
+                        { comp: "Princípio de Funcionamento", func: "Possui duas rodas motrizes controladas individualmente e uma roda passiva de apoio (roda boba ou caster). A direção é controlada por 'direção diferencial', onde a velocidade das duas rodas motrizes é ajustada para fazer curvas." },
+                        { comp: "Rodas Motoras e Pneus", func: "São as rodas que recebem o torque diretamente dos motores. Os pneus de borracha aumentam a fricção (aderência) com o solo para garantir que a força do motor se converta em movimento sem derrapagem excessiva." },
+                        { comp: "Roda Caster ou Roda Boba", func: "É uma roda pequena e livre, geralmente feita de plástico ou metal, que não é motorizada. Sua única função é dar suporte e estabilidade ao chassi, permitindo que as duas rodas motoras determinem toda a direção e movimento." },
+                        { comp: "Chassi", func: "A estrutura física, geralmente de acrílico ou metal, que serve como base para montar todos os componentes eletrônicos, motores e a bateria. Define o formato e o centro de gravidade do carrinho." },
+                        { comp: "Bateria", func: "Fonte de energia portátil (exemplo: LiPo ou pilhas AA) que alimenta todos os componentes do carrinho, incluindo o Microcontrolador e os motores (através do Driver de Motor)." }
                     ]
                 },
                 fourWD: {
-                    title: "4WD: Potência e Estabilidade",
+                    title: "Carrinho 4WD: Potência e Estabilidade",
                     description: [
-                        "**Princípio:** Quatro motores, um para cada roda, fornecendo tração máxima e controle de torque aprimorado.",
-                        "**Vantagens:** Excelente tração e estabilidade. Ideal para subir inclinações e superar obstáculos. Melhor desempenho em terrenos acidentados.",
-                        "**Desvantagens:** Maior consumo de energia, design mais complexo, custo de implementação mais elevado (mais motores e drivers).",
-                        "**Componentes-chave:** Quatro motores, Amortecimento (opcional), Chassi robusto, Bateria de alta capacidade."
+                        { comp: "Princípio de Funcionamento", func: "Possui quatro motores, um para cada roda, fornecendo tração máxima e controle de torque aprimorado. O sistema 4WD garante que o robô continue em movimento mesmo se uma roda perder a tração." },
+                        { comp: "Quatro Motores de Alta Potência", func: "Cada roda tem seu próprio motor. Isso distribui o torque e permite que o carrinho suba inclinações mais acentuadas e enfrente terrenos mais desafiadores, como areia, cascalho ou obstáculos." },
+                        { comp: "Sistema de Suspensão (Opcional)", func: "Em modelos avançados, a suspensão ajuda a manter todas as rodas em contato com o solo em terrenos irregulares, absorvendo choques e vibrações, o que é crucial para manter a estabilidade da plataforma de sensores ou câmera." },
+                        { comp: "Chassi Robusto", func: "Normalmente construído com materiais mais resistentes (como alumínio ou chapas grossas de acrílico) para suportar o peso adicional dos motores e a tensão das operações off-road." },
+                        { comp: "Módulos de Comunicação (WiFi/Bluetooth)", func: "Frequentemente usados em 4WD para controle remoto e teleoperação, permitindo que o usuário envie comandos de direção e receba dados de telemetria (como bateria e inclinação) de longas distâncias." }
                     ]
                 }
             };
@@ -386,7 +411,8 @@
                 // Constrói o HTML de detalhes
                 let html = `<h4>${data.title}</h4>`;
                 data.description.forEach(item => {
-                    html += `<p>${item}</p>`;
+                    html += `<h5>${item.comp}</h5>`;
+                    html += `<p>${item.func}</p>`;
                 });
 
                 detailsContent.innerHTML = html;
@@ -404,8 +430,9 @@
             });
 
             // Estado inicial: Garante que a mensagem inicial seja a primeira coisa que o usuário veja
-            detailsContent.innerHTML = `<p>Selecione um dos tipos de robôs acima para ver sua explicação técnica detalhada.</p>`;
+            detailsContent.innerHTML = `<p class="intro-text">Selecione um dos tipos de robôs acima para ver a função detalhada de cada componente.</p>`;
         });
     </script>
 </body>
 </html>
+```

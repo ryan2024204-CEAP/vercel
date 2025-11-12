@@ -3,298 +3,416 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌟 Guia 4WD Fácil: Componentes, Montagem e Dúvidas</title>
+    <title>Robótica Móvel - Linha e Tração</title>
     
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f8ff; 
-            color: #34495e; 
-            line-height: 1.6;
-        }
-
-        header {
-            background-color: #3498db; 
-            color: white;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        header h1 {
-            margin-bottom: 5px;
-            font-size: 2.4em;
-        }
-
-        main {
-            max-width: 1000px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        /* Navegação em Abas (Menu) */
-        .navegacao {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #ccc;
-        }
-
-        .aba-btn {
-            background: none;
-            border: none;
-            padding: 15px 25px;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #34495e;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .aba-btn:hover {
-            background-color: #e6e6e6;
-        }
-
-        .aba-btn.ativa {
-            color: #3498db;
-            border-bottom: 3px solid #3498db;
-            background-color: #ecf0f1;
-        }
-
-        /* Estilo para as páginas/blocos de informação */
-        .pagina-conteudo {
-            background-color: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            border-left: 6px solid #e67e22;
-        }
-        
-        /* Oculta as páginas/blocos, o JS vai mostrar um por vez */
-        .oculto {
-            display: none;
-        }
-
-        /* Estilo FAQ */
-        .faq-item {
-            margin-bottom: 15px;
-            border-bottom: 1px dashed #ccc;
-            padding-bottom: 10px;
-        }
-        .faq-pergunta {
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        .faq-resposta {
-            padding-left: 15px;
-            margin-top: 5px;
-            font-size: 0.95em;
-        }
-
-        /* Estilo de Destaque */
-        .destaque {
-            background-color: #fffacd; /* Amarelo claro para notas */
-            padding: 10px;
-            border-radius: 5px;
-            border-left: 3px solid #ffcc00;
-            margin-top: 15px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #34495e;
-            color: white;
-            margin-top: 20px;
-        }
-    </style>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    <div class="page-wrapper">
+        
+<header class="main-header">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-robot"></i> **TechDrive**
+                </div>
+            </nav>
+        </header>
 
-    <header>
-        <h1>Guia Interativo: Seu Primeiro Carrinho Seguidor de Linha 4WD</h1>
-        <p>Tudo o que você precisa saber para montar e programar seu robô, explicado de forma fácil.</p>
-    </header>
-
-    <main>
-        <nav class="navegacao">
-            <button class="aba-btn ativa" onclick="mudarAba('componentes')">1. Componentes (Peças)</button>
-            <button class="aba-btn" onclick="mudarAba('montagem')">2. Montagem (Passo a Passo)</button>
-            <button class="aba-btn" onclick="mudarAba('codigo')">3. O Código (As Regras)</button>
-            <button class="aba-btn" onclick="mudarAba('faq')">4. Dúvidas Frequentes (FAQ)</button>
-        </nav>
-
-        <section id="componentes" class="pagina-conteudo">
-            <h2>🧩 1. Componentes: O Kit de Construção</h2>
-
-            <div class="bloco-info">
-                <h3>1.1. Chassi e Rodas 🧱</h3>
-                <p>O **Chassi** é a base, o **esqueleto** do robô, geralmente feito de acrílico. Ele dá suporte a tudo. As **Rodas** são os "pneus". Como é 4WD, são **quatro rodas**, garantindo mais força e estabilidade ao seguir a linha.</p>
-                <p class="destaque">**** *Dica: Certifique-se de que o chassi tenha furos para parafusar todas as peças!*</p>
+        
+<section id="hero" class="hero-section">
+            <div class="container hero-content">
+                <h1 class="hero-title">Explorando a Robótica Móvel</h1>
+                <p class="hero-subtitle">Entenda as diferenças entre carrinhos seguidores de linha e sistemas de tração 2WD e 4WD.</p>
+                <a href="#concepts" class="btn-primary">Conhecer os Tipos <i class="fas fa-arrow-down"></i></a>
             </div>
-
-            <div class="bloco-info">
-                <h3>1.2. Arduino Uno e Motor Shield 🧠⚙️</h3>
-                <p>O **Arduino Uno** é o **cérebro**. É uma placa que lê informações (dos sensores) e toma decisões, executando o **Código** que você escreveu.</p>
-                <p>O **Motor Shield** (Placa Controladora L298N, por exemplo) é o **músculo auxiliar**. O Arduino não tem força suficiente para ligar os motores, então o Shield recebe o sinal do Arduino ("Gire!") e usa a energia da bateria forte para **mover** os **Motores** (os atuadores).</p>
-            </div>
-
-            <div class="bloco-info">
-                <h3>1.3. Motores, Sensor de Linha e Fios ⚡️👁️</h3>
-                <ul>
-                    <li>**Motores DC:** Os "músculos" que fazem as rodas girarem. O 4WD usa **quatro motores**, um para cada roda, geralmente com caixa de redução para ser mais forte.</li>
-                    <li>**Sensor Seguidor de Linha (Infravermelho):** Os **olhos** do robô. Ele emite luz infravermelha e lê o reflexo. Luz **refletida** = chão claro. Luz **absorvida** = linha escura.</li>
-                    <li>**Fios Jumpers:** Os **nervos**. Eles transportam os sinais e a eletricidade entre todas as placas e componentes.</li>
-                </ul>
-            </div>
-
-            <div class="bloco-info">
-                <h3>1.4. Bateria 9V, Porta Pilhas e Placa de Ensaio 🔋🔌</h3>
-                <ul>
-                    <li>**Porta Pilhas (para Motores):** É a fonte de **energia principal** e forte (ex: 6V ou mais) que alimenta o **Motor Shield** e os motores.</li>
-                    <li>**Bateria 9 Volts:** Geralmente usada para alimentar separadamente o **Arduino Uno** (a parte lógica).</li>
-                    <li>**Placa de Ensaio (Protoboard):** Um painel com furos para organizar e **testar conexões** e distribuir energia de forma simples, sem precisar de solda.</li>
-                </ul>
-                <p class="destaque">**** *Regra de Ouro: Sempre use fontes de energia separadas para o Arduino (lógica) e para os Motores (força).*</p>
-            </div>
-
-            <button class="btn-detalhes" onclick="mudarAba('montagem')">Ir para: 2. Guia de Montagem</button>
         </section>
 
-        <section id="montagem" class="pagina-conteudo oculto">
-            <h2>🛠️ 2. Guia de Montagem Simples</h2>
-            <ol>
-                <li>
-                    <h4>Passo 1: Fixar os Motores e Rodas</h4>
-                    <p>Parafuse os **Motores** no **Chassi** (o esqueleto). Encaixe as **Rodas** nos eixos dos motores. O chassi já deve ter furos para isso.</p>
-                    <p class="destaque">****</p>
-                </li>
-                <li>
-                    <h4>Passo 2: Instalar as Placas</h4>
-                    <p>Fixe o **Arduino Uno** e o **Motor Shield** (que geralmente vai encaixado em cima do Arduino) na parte superior do chassi, usando parafusos ou espaçadores.</p>
-                </li>
-                <li>
-                    <h4>Passo 3: Conectar os Motores ao Shield</h4>
-                    <p>Use os **Fios** para ligar os 4 motores (dois de cada lado) ao **Motor Shield**. Preste atenção na polaridade (+ e -), pois ela define a direção de giro.</p>
-                </li>
-                <li>
-                    <h4>Passo 4: Instalar os Sensores</h4>
-                    <p>Prenda o módulo do **Sensor Seguidor de Linha** na parte **inferior/frente** do chassi, virado para o chão, onde ele vai "enxergar" a linha.</p>
-                </li>
-                <li>
-                    <h4>Passo 5: Conectar Sensores ao Arduino (Lógica)</h4>
-                    <p>Use os **Fios Jumpers** para ligar os pinos de saída digital dos sensores (que dão o sinal 0 ou 1) aos pinos de entrada digital do **Arduino Uno**.</p>
-                </li>
-                <li>
-                    <h4>Passo 6: Conectar a Energia</h4>
-                    <p>Ligue o **Porta Pilhas** (motores) ao **Motor Shield**. Ligue a **Bateria 9V** (lógica) ao conector de alimentação do **Arduino Uno**.</p>
-                </li>
-            </ol>
-
-            <button class="btn-detalhes" onclick="mudarAba('codigo')">Ir para: 3. O Código (As Regras)</button>
+        
+<section id="concepts" class="concepts-section common-section bg-dark">
+            <div class="container">
+                <h2 class="section-title">Tipos de Robôs Móveis</h2>
+                <div class="concepts-grid">
+                    
+<div class="concept-card" id="lineFollower">
+                        <i class="fas fa-route fa-3x"></i>
+                        <h3>Seguidor de Linha</h3>
+                        <p>Robôs programados para seguir um caminho preto (ou claro) pré-determinado usando **sensores de refletância**. Eles são essenciais para competições de robótica e automação em ambientes controlados, focando em **precisão e algoritmo**.</p>
+                        <button class="btn-detail" data-type="lineFollower">Ver Detalhes</button>
+                    </div>
+                    
+<div class="concept-card" id="twoWD">
+                        <i class="fas fa-car-side fa-3x"></i>
+                        <h3>Carrinho 2WD (Two-Wheel Drive)</h3>
+                        <p>Possui **duas rodas motoras** (geralmente traseiras) e uma roda boba ou caster para suporte. É simples, leve e ideal para **superfícies planas**. São fáceis de programar e muito comuns para projetos introdutórios de robótica.</p>
+                        <button class="btn-detail" data-type="twoWD">Ver Detalhes</button>
+                    </div>
+                    
+<div class="concept-card" id="fourWD">
+                        <i class="fas fa-truck-monster fa-3x"></i>
+                        <h3>Carrinho 4WD (Four-Wheel Drive)</h3>
+                        <p>Possui **quatro rodas motoras independentes**. Isso oferece **maior tração, estabilidade e capacidade de lidar com obstáculos e terrenos irregulares**. São utilizados em robótica avançada e aplicações *off-road*.</p>
+                        <button class="btn-detail" data-type="fourWD">Ver Detalhes</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+<section id="details-view" class="common-section">
+            <div class="container">
+                <h2 class="section-title">Análise Técnica</h2>
+                <div class="details-box">
+                    <div id="details-content">
+                        <p>Selecione um dos tipos de robôs acima para ver sua explicação técnica detalhada.</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <section id="codigo" class="pagina-conteudo oculto">
-            <h2>💻 3. O Código: As Regras do Robô</h2>
-            <p>O código é a lista de instruções em **Arduino C/C++** que transforma a eletricidade em inteligência. Ele repete a mesma pergunta infinitamente:</p>
-            
-            <pre>
-void loop() {
-  // 1. O Arduino LÊ os dados dos sensores
-  leitura_Esq = digitalRead(Sensor_Esquerdo);
-  leitura_Dir = digitalRead(Sensor_Direito);
-  
-  // 2. O Arduino DECIDE qual ação tomar
-  
-  // CASO 1: Tudo na Linha (Avançar)
-  if (leitura_Esq == LINHA && leitura_Dir == LINHA) {
-    moverParaFrente(); 
-  }
-  
-  // CASO 2: Linha sumiu para a Direita (Virar à Esquerda)
-  else if (leitura_Esq == LINHA && leitura_Dir == CHAO) {
-    virarEsquerda(); 
-  }
-  
-  // CASO 3: Linha sumiu para a Esquerda (Virar à Direita)
-  else if (leitura_Esq == CHAO && leitura_Dir == LINHA) {
-    virarDireita(); 
-  }
-  
-  // CASO 4: Perdeu a Linha (Parar ou Buscar)
-  else {
-    parar(); 
-  }
-}
-            </pre>
-            <p class="destaque">**Função:** A função `loop()` roda sem parar. Ela cria um ciclo de **Sensor (entrada) -> Arduino (processamento) -> Motor (saída)**, que é a base de toda a robótica!</p>
-
-            <button class="btn-detalhes" onclick="mudarAba('faq')">Ir para: 4. Dúvidas Frequentes (FAQ)</button>
-        </section>
-
-        <section id="faq" class="pagina-conteudo oculto">
-            <h2>❓ 4. Dúvidas Frequentes (FAQ)</h2>
-
-            <div class="faq-item">
-                <p class="faq-pergunta">P: Meu robô não anda, o que pode ser?</p>
-                <p class="faq-resposta">R: 90% das vezes é a **energia**. Verifique se o **Porta Pilhas** está ligado corretamente ao **Motor Shield** e se as pilhas estão carregadas. O Motor Shield precisa de energia separada e forte.</p>
+        
+<footer class="main-footer">
+            <div class="container">
+                <p>&copy; 2024 Projeto Robótica Móvel. Todos os direitos reservados.</p>
             </div>
+        </footer>
+    </div>
 
-            <div class="faq-item">
-                <p class="faq-pergunta">P: O robô treme demais na linha, por quê?</p>
-                <p class="faq-resposta">R: O robô está corrigindo a direção de forma muito agressiva. Isso geralmente se resolve ajustando o **Código**, diminuindo a velocidade ou usando uma lógica de correção mais suave (como PID, mas que é um assunto mais avançado).</p>
-            </div>
-
-            <div class="faq-item">
-                <p class="faq-pergunta">P: Posso usar apenas uma Bateria 9V para tudo?</p>
-                <p class="faq-resposta">R: **Não é recomendado.** O motor exige muita corrente (força) e a Bateria 9V (tipo pequena) não consegue fornecer isso por muito tempo, além de poder causar instabilidade no Arduino.</p>
-            </div>
-
-            <div class="faq-item">
-                <p class="faq-pergunta">P: Qual a diferença entre Fios e Placa de Ensaio?</p>
-                <p class="faq-resposta">R: Os **Fios** são as pontes de ligação. A **Placa de Ensaio** (Protoboard) é um organizador que você usa para ligar vários fios em um mesmo ponto de forma temporária e fácil.</p>
-            </div>
-
-            <button class="btn-detalhes" onclick="mudarAba('componentes')">Voltar ao Início: Componentes</button>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 - Guia de Robótica para Iniciantes. Divirta-se construindo!</p>
-    </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Função para alternar entre as abas (páginas)
-            window.mudarAba = (idAlvo) => {
-                // 1. Esconder todo o conteúdo
-                const todasPaginas = document.querySelectorAll('.pagina-conteudo');
-                todasPaginas.forEach(pagina => {
-                    pagina.classList.add('oculto');
-                });
-
-                // 2. Mostrar o conteúdo alvo
-                document.getElementById(idAlvo).classList.remove('oculto');
-
-                // 3. Atualizar o estilo dos botões
-                const todosBotoes = document.querySelectorAll('.aba-btn');
-                todosBotoes.forEach(botao => {
-                    botao.classList.remove('ativa');
-                    // Adicionar classe 'ativa' ao botão que corresponde à página atual
-                    if (botao.getAttribute('onclick').includes(idAlvo)) {
-                        botao.classList.add('ativa');
-                    }
-                });
-                
-                // Rola suavemente para o topo da página principal
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            };
-
-            // Inicia mostrando a primeira aba
-            window.mudarAba('componentes');
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
+2. style.css (Estilo Moderno e Tecnológico)
+Crie um arquivo chamado style.css.
+
+CSS
+
+/* Variáveis CSS */
+:root {
+    --color-bg-dark: #121212;
+    --color-bg-light-dark: #1e1e1e;
+    --color-primary-blue: #007bff; /* Principal destaque */
+    --color-accent-cyan: #00bcd4; /* Destaque secundário */
+    --color-text-light: #e0e0e0;
+    --color-text-muted: #a0a0a0;
+    --font-heading: 'Orbitron', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+}
+
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--color-text-light);
+    background-color: var(--color-bg-dark);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.bg-dark {
+    background-color: var(--color-bg-light-dark);
+}
+
+.common-section {
+    padding: 80px 0;
+}
+
+/* --- Header e Navbar --- */
+.main-header {
+    background-color: var(--color-bg-light-dark);
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 1.8em;
+    color: var(--color-accent-cyan);
+    letter-spacing: 1px;
+}
+
+.logo i {
+    margin-right: 10px;
+    color: var(--color-primary-blue);
+}
+
+/* --- Títulos --- */
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 2.5em;
+    text-align: center;
+    margin-bottom: 50px;
+    color: var(--color-primary-blue);
+    text-transform: uppercase;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--color-accent-cyan);
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://via.placeholder.com/1920x800/2c2c4d/00bcd4?text=Robotic+Circuits+Background') no-repeat center center/cover;
+}
+
+.hero-title {
+    font-family: var(--font-heading);
+    font-size: 3.8em;
+    margin-bottom: 15px;
+    color: white;
+    text-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
+}
+
+.hero-subtitle {
+    font-size: 1.3em;
+    color: var(--color-text-muted);
+    margin-bottom: 30px;
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-family: var(--font-heading);
+    background-color: var(--color-primary-blue);
+    color: white;
+    border: 2px solid var(--color-primary-blue);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: transparent;
+    color: var(--color-primary-blue);
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.6);
+}
+
+/* --- Concepts Section (Cards) --- */
+.concepts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.concept-card {
+    background-color: var(--color-bg-dark);
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    border: 1px solid #333;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.concept-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-accent-cyan);
+}
+
+.concept-card i {
+    color: var(--color-accent-cyan);
+    margin-bottom: 15px;
+    font-size: 3em;
+    text-shadow: 0 0 8px rgba(0, 188, 212, 0.5);
+}
+
+.concept-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.concept-card p {
+    color: var(--color-text-muted);
+    font-size: 0.95em;
+    flex-grow: 1;
+}
+
+.btn-detail {
+    background-color: var(--color-bg-light-dark);
+    color: var(--color-primary-blue);
+    padding: 8px 15px;
+    border: 1px solid var(--color-primary-blue);
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+}
+
+.btn-detail:hover {
+    background-color: var(--color-primary-blue);
+    color: white;
+}
+
+/* --- Details View --- */
+.details-box {
+    background-color: var(--color-bg-dark);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    border: 2px solid var(--color-border-dark);
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#details-content h4 {
+    font-family: var(--font-heading);
+    font-size: 2em;
+    color: var(--color-accent-cyan);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+#details-content p {
+    font-size: 1.1em;
+    color: var(--color-text-light);
+    line-height: 1.8;
+}
+
+#details-content p:last-of-type {
+    margin-top: 20px;
+}
+
+/* --- Footer --- */
+.main-footer {
+    background-color: #0d0d0d;
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid #333;
+}
+
+.main-footer p {
+    color: var(--color-text-muted);
+    font-size: 0.85em;
+}
+
+/* --- Responsividade --- */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5em;
+    }
+    .hero-subtitle {
+        font-size: 1em;
+    }
+    .concepts-grid {
+        grid-template-columns: 1fr;
+    }
+    .section-title {
+        font-size: 2em;
+    }
+    .details-box {
+        padding: 25px;
+    }
+}
+3. script.js (JavaScript para Interatividade)
+Crie um arquivo chamado script.js para gerenciar a exibição dos detalhes.
+
+JavaScript
+
+document.addEventListener('DOMContentLoaded', function() {
+    const detailButtons = document.querySelectorAll('.btn-detail');
+    const detailsContent = document.getElementById('details-content');
+
+    // Mapeamento dos detalhes (o conteúdo que será exibido)
+    const conceptsDetails = {
+        lineFollower: {
+            title: "Seguidor de Linha: Precisão no Trajeto",
+            description: [
+                "**Princípio:** Utiliza sensores (geralmente infravermelho) para detectar a diferença de refletância entre a linha (escura) e o chão (claro).",
+                "**Vantagens:** Alta precisão, baixo custo para aplicações simples, excelente para ambientes controlados (pistas, fábricas).",
+                "**Desvantagens:** Não funciona em ambientes sem linha ou com pouca diferença de cor. Limitado a percursos pré-definidos.",
+                "**Componentes-chave:** Sensores IR, Microcontrolador (Arduino/Raspberry Pi), Dois motores DC."
+            ]
+        },
+        twoWD: {
+            title: "2WD: Simplicidade e Agilidade",
+            description: [
+                "**Princípio:** Tração fornecida por dois motores nas rodas. A direção é controlada pela diferença de velocidade entre as rodas (patinagem).",
+                "**Vantagens:** Design simples, leve, baixo consumo de energia. Perfeito para introdução à robótica e projetos de código aberto.",
+                "**Desvantagens:** Baixa tração em terrenos escorregadios ou irregulares. Menos estável em altas velocidades ou curvas fechadas.",
+                "**Componentes-chave:** Dois motores DC/Servo, Chassi leve, Roda Caster (ou roda boba)."
+            ]
+        },
+        fourWD: {
+            title: "4WD: Potência e Estabilidade",
+            description: [
+                "**Princípio:** Quatro motores, um para cada roda, fornecendo tração máxima e controle de torque aprimorado.",
+                "**Vantagens:** Excelente tração e estabilidade. Ideal para subir inclinações e superar obstáculos. Melhor desempenho em terrenos acidentados.",
+                "**Desvantagens:** Maior consumo de energia, design mais complexo, custo de implementação mais elevado (mais motores e drivers).",
+                "**Componentes-chave:** Quatro motores, Amortecimento (opcional), Chassi robusto, Bateria de alta capacidade."
+            ]
+        }
+    };
+
+    // Função para atualizar a área de detalhes
+    function updateDetails(type) {
+        const data = conceptsDetails[type];
+        
+        // Constrói o HTML de detalhes
+        let html = `<h4>${data.title}</h4>`;
+        data.description.forEach(item => {
+            // Usa <p> para cada item para melhor formatação
+            html += `<p>${item}</p>`;
+        });
+
+        detailsContent.innerHTML = html;
+        
+        // Rola a página até a seção de detalhes após a atualização
+        document.getElementById('details-view').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Adiciona evento de clique para todos os botões
+    detailButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const type = this.getAttribute('data-type');
+            updateDetails(type);
+        });
+    });
+
+    // Estado inicial: Garante que a mensagem inicial seja a primeira coisa que o usuário veja
+    detailsContent.innerHTML = `<p>Selecione um dos tipos de robôs acima para ver sua explicação técnica detalhada.</p>`;
+});

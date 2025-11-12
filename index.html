@@ -5,10 +5,273 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Robótica Móvel - Linha e Tração</title>
     
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Variáveis CSS */
+        :root {
+            --color-bg-dark: #121212;
+            --color-bg-light-dark: #1e1e1e;
+            --color-primary-blue: #007bff; /* Principal destaque */
+            --color-accent-cyan: #00bcd4; /* Destaque secundário */
+            --color-text-light: #e0e0e0;
+            --color-text-muted: #a0a0a0;
+            --font-heading: 'Orbitron', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+        }
+
+        /* Reset Básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-text-light);
+            background-color: var(--color-bg-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .bg-dark {
+            background-color: var(--color-bg-light-dark);
+        }
+
+        .common-section {
+            padding: 80px 0;
+        }
+
+        /* --- Header e Navbar --- */
+        .main-header {
+            background-color: var(--color-bg-light-dark);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8em;
+            color: var(--color-accent-cyan);
+            letter-spacing: 1px;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--color-primary-blue);
+        }
+
+        /* --- Títulos --- */
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--color-primary-blue);
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--color-accent-cyan);
+        }
+
+        /* --- Hero Section --- */
+        .hero-section {
+            height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://via.placeholder.com/1920x800/2c2c4d/00bcd4?text=Robotic+Circuits+Background') no-repeat center center/cover;
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: 3.8em;
+            margin-bottom: 15px;
+            color: white;
+            text-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3em;
+            color: var(--color-text-muted);
+            margin-bottom: 30px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-family: var(--font-heading);
+            background-color: var(--color-primary-blue);
+            color: white;
+            border: 2px solid var(--color-primary-blue);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--color-primary-blue);
+            box-shadow: 0 0 15px rgba(0, 123, 255, 0.6);
+        }
+
+        /* --- Concepts Section (Cards) --- */
+        .concepts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .concept-card {
+            background-color: var(--color-bg-dark);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid #333;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-accent-cyan);
+        }
+
+        .concept-card i {
+            color: var(--color-accent-cyan);
+            margin-bottom: 15px;
+            font-size: 3em;
+            text-shadow: 0 0 8px rgba(0, 188, 212, 0.5);
+        }
+
+        .concept-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .concept-card p {
+            color: var(--color-text-muted);
+            font-size: 0.95em;
+            flex-grow: 1;
+        }
+
+        .btn-detail {
+            background-color: var(--color-bg-light-dark);
+            color: var(--color-primary-blue);
+            padding: 8px 15px;
+            border: 1px solid var(--color-primary-blue);
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-detail:hover {
+            background-color: var(--color-primary-blue);
+            color: white;
+        }
+
+        /* --- Details View --- */
+        .details-box {
+            background-color: var(--color-bg-dark);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+            border: 2px solid var(--color-border-dark);
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        #details-content h4 {
+            font-family: var(--font-heading);
+            font-size: 2em;
+            color: var(--color-accent-cyan);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        #details-content p {
+            font-size: 1.1em;
+            color: var(--color-text-light);
+            line-height: 1.8;
+        }
+
+        #details-content p:last-of-type {
+            margin-top: 20px;
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            background-color: #0d0d0d;
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+
+        .main-footer p {
+            color: var(--color-text-muted);
+            font-size: 0.85em;
+        }
+
+        /* --- Responsividade --- */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5em;
+            }
+            .hero-subtitle {
+                font-size: 1em;
+            }
+            .concepts-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-title {
+                font-size: 2em;
+            }
+            .details-box {
+                padding: 25px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="page-wrapper">
@@ -79,340 +342,70 @@
         </footer>
     </div>
 
-    <script src="script.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const detailButtons = document.querySelectorAll('.btn-detail');
+            const detailsContent = document.getElementById('details-content');
+            
+            // Mapeamento dos detalhes (o conteúdo que será exibido)
+            const conceptsDetails = {
+                lineFollower: {
+                    title: "Seguidor de Linha: Precisão no Trajeto",
+                    description: [
+                        "**Princípio:** Utiliza sensores (geralmente infravermelho) para detectar a diferença de refletância entre a linha (escura) e o chão (claro).",
+                        "**Vantagens:** Alta precisão, baixo custo para aplicações simples, excelente para ambientes controlados (pistas, fábricas).",
+                        "**Desvantagens:** Não funciona em ambientes sem linha ou com pouca diferença de cor. Limitado a percursos pré-definidos.",
+                        "**Componentes-chave:** Sensores IR, Microcontrolador (Arduino/Raspberry Pi), Dois motores DC."
+                    ]
+                },
+                twoWD: {
+                    title: "2WD: Simplicidade e Agilidade",
+                    description: [
+                        "**Princípio:** Tração fornecida por dois motores nas rodas. A direção é controlada pela diferença de velocidade entre as rodas (patinagem).",
+                        "**Vantagens:** Design simples, leve, baixo consumo de energia. Perfeito para introdução à robótica e projetos de código aberto.",
+                        "**Desvantagens:** Baixa tração em terrenos escorregadios ou irregulares. Menos estável em altas velocidades ou curvas fechadas.",
+                        "**Componentes-chave:** Dois motores DC/Servo, Chassi leve, Roda Caster (ou roda boba)."
+                    ]
+                },
+                fourWD: {
+                    title: "4WD: Potência e Estabilidade",
+                    description: [
+                        "**Princípio:** Quatro motores, um para cada roda, fornecendo tração máxima e controle de torque aprimorado.",
+                        "**Vantagens:** Excelente tração e estabilidade. Ideal para subir inclinações e superar obstáculos. Melhor desempenho em terrenos acidentados.",
+                        "**Desvantagens:** Maior consumo de energia, design mais complexo, custo de implementação mais elevado (mais motores e drivers).",
+                        "**Componentes-chave:** Quatro motores, Amortecimento (opcional), Chassi robusto, Bateria de alta capacidade."
+                    ]
+                }
+            };
+
+            // Função para atualizar a área de detalhes
+            function updateDetails(type) {
+                const data = conceptsDetails[type];
+                
+                // Constrói o HTML de detalhes
+                let html = `<h4>${data.title}</h4>`;
+                data.description.forEach(item => {
+                    html += `<p>${item}</p>`;
+                });
+
+                detailsContent.innerHTML = html;
+                
+                // Rola a página até a seção de detalhes após a atualização
+                document.getElementById('details-view').scrollIntoView({ behavior: 'smooth' });
+            }
+
+            // Adiciona evento de clique para todos os botões
+            detailButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    updateDetails(type);
+                });
+            });
+
+            // Estado inicial: Garante que a mensagem inicial seja a primeira coisa que o usuário veja
+            detailsContent.innerHTML = `<p>Selecione um dos tipos de robôs acima para ver sua explicação técnica detalhada.</p>`;
+        });
+    </script>
 </body>
 </html>
-2. style.css (Estilo Moderno e Tecnológico)
-Crie um arquivo chamado style.css.
-
-CSS
-
-/* Variáveis CSS */
-:root {
-    --color-bg-dark: #121212;
-    --color-bg-light-dark: #1e1e1e;
-    --color-primary-blue: #007bff; /* Principal destaque */
-    --color-accent-cyan: #00bcd4; /* Destaque secundário */
-    --color-text-light: #e0e0e0;
-    --color-text-muted: #a0a0a0;
-    --font-heading: 'Orbitron', sans-serif;
-    --font-body: 'Roboto', sans-serif;
-}
-
-/* Reset Básico */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    font-family: var(--font-body);
-    color: var(--color-text-light);
-    background-color: var(--color-bg-dark);
-    line-height: 1.6;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.bg-dark {
-    background-color: var(--color-bg-light-dark);
-}
-
-.common-section {
-    padding: 80px 0;
-}
-
-/* --- Header e Navbar --- */
-.main-header {
-    background-color: var(--color-bg-light-dark);
-    padding: 15px 0;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-}
-
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.logo {
-    font-family: var(--font-heading);
-    font-size: 1.8em;
-    color: var(--color-accent-cyan);
-    letter-spacing: 1px;
-}
-
-.logo i {
-    margin-right: 10px;
-    color: var(--color-primary-blue);
-}
-
-/* --- Títulos --- */
-.section-title {
-    font-family: var(--font-heading);
-    font-size: 2.5em;
-    text-align: center;
-    margin-bottom: 50px;
-    color: var(--color-primary-blue);
-    text-transform: uppercase;
-    position: relative;
-    padding-bottom: 15px;
-}
-
-.section-title::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background-color: var(--color-accent-cyan);
-}
-
-/* --- Hero Section --- */
-.hero-section {
-    height: 70vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://via.placeholder.com/1920x800/2c2c4d/00bcd4?text=Robotic+Circuits+Background') no-repeat center center/cover;
-}
-
-.hero-title {
-    font-family: var(--font-heading);
-    font-size: 3.8em;
-    margin-bottom: 15px;
-    color: white;
-    text-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
-}
-
-.hero-subtitle {
-    font-size: 1.3em;
-    color: var(--color-text-muted);
-    margin-bottom: 30px;
-}
-
-.btn-primary {
-    display: inline-block;
-    padding: 12px 30px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-family: var(--font-heading);
-    background-color: var(--color-primary-blue);
-    color: white;
-    border: 2px solid var(--color-primary-blue);
-    transition: all 0.3s ease;
-}
-
-.btn-primary:hover {
-    background-color: transparent;
-    color: var(--color-primary-blue);
-    box-shadow: 0 0 15px rgba(0, 123, 255, 0.6);
-}
-
-/* --- Concepts Section (Cards) --- */
-.concepts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-}
-
-.concept-card {
-    background-color: var(--color-bg-dark);
-    padding: 30px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    border: 1px solid #333;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-    min-height: 250px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.concept-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--color-accent-cyan);
-}
-
-.concept-card i {
-    color: var(--color-accent-cyan);
-    margin-bottom: 15px;
-    font-size: 3em;
-    text-shadow: 0 0 8px rgba(0, 188, 212, 0.5);
-}
-
-.concept-card h3 {
-    font-family: var(--font-heading);
-    font-size: 1.5em;
-    margin-bottom: 10px;
-}
-
-.concept-card p {
-    color: var(--color-text-muted);
-    font-size: 0.95em;
-    flex-grow: 1;
-}
-
-.btn-detail {
-    background-color: var(--color-bg-light-dark);
-    color: var(--color-primary-blue);
-    padding: 8px 15px;
-    border: 1px solid var(--color-primary-blue);
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: all 0.3s ease;
-}
-
-.btn-detail:hover {
-    background-color: var(--color-primary-blue);
-    color: white;
-}
-
-/* --- Details View --- */
-.details-box {
-    background-color: var(--color-bg-dark);
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-    border: 2px solid var(--color-border-dark);
-    min-height: 250px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-#details-content h4 {
-    font-family: var(--font-heading);
-    font-size: 2em;
-    color: var(--color-accent-cyan);
-    margin-bottom: 15px;
-    text-transform: uppercase;
-}
-
-#details-content p {
-    font-size: 1.1em;
-    color: var(--color-text-light);
-    line-height: 1.8;
-}
-
-#details-content p:last-of-type {
-    margin-top: 20px;
-}
-
-/* --- Footer --- */
-.main-footer {
-    background-color: #0d0d0d;
-    padding: 20px 0;
-    text-align: center;
-    border-top: 1px solid #333;
-}
-
-.main-footer p {
-    color: var(--color-text-muted);
-    font-size: 0.85em;
-}
-
-/* --- Responsividade --- */
-@media (max-width: 768px) {
-    .hero-title {
-        font-size: 2.5em;
-    }
-    .hero-subtitle {
-        font-size: 1em;
-    }
-    .concepts-grid {
-        grid-template-columns: 1fr;
-    }
-    .section-title {
-        font-size: 2em;
-    }
-    .details-box {
-        padding: 25px;
-    }
-}
-3. script.js (JavaScript para Interatividade)
-Crie um arquivo chamado script.js para gerenciar a exibição dos detalhes.
-
-JavaScript
-
-document.addEventListener('DOMContentLoaded', function() {
-    const detailButtons = document.querySelectorAll('.btn-detail');
-    const detailsContent = document.getElementById('details-content');
-
-    // Mapeamento dos detalhes (o conteúdo que será exibido)
-    const conceptsDetails = {
-        lineFollower: {
-            title: "Seguidor de Linha: Precisão no Trajeto",
-            description: [
-                "**Princípio:** Utiliza sensores (geralmente infravermelho) para detectar a diferença de refletância entre a linha (escura) e o chão (claro).",
-                "**Vantagens:** Alta precisão, baixo custo para aplicações simples, excelente para ambientes controlados (pistas, fábricas).",
-                "**Desvantagens:** Não funciona em ambientes sem linha ou com pouca diferença de cor. Limitado a percursos pré-definidos.",
-                "**Componentes-chave:** Sensores IR, Microcontrolador (Arduino/Raspberry Pi), Dois motores DC."
-            ]
-        },
-        twoWD: {
-            title: "2WD: Simplicidade e Agilidade",
-            description: [
-                "**Princípio:** Tração fornecida por dois motores nas rodas. A direção é controlada pela diferença de velocidade entre as rodas (patinagem).",
-                "**Vantagens:** Design simples, leve, baixo consumo de energia. Perfeito para introdução à robótica e projetos de código aberto.",
-                "**Desvantagens:** Baixa tração em terrenos escorregadios ou irregulares. Menos estável em altas velocidades ou curvas fechadas.",
-                "**Componentes-chave:** Dois motores DC/Servo, Chassi leve, Roda Caster (ou roda boba)."
-            ]
-        },
-        fourWD: {
-            title: "4WD: Potência e Estabilidade",
-            description: [
-                "**Princípio:** Quatro motores, um para cada roda, fornecendo tração máxima e controle de torque aprimorado.",
-                "**Vantagens:** Excelente tração e estabilidade. Ideal para subir inclinações e superar obstáculos. Melhor desempenho em terrenos acidentados.",
-                "**Desvantagens:** Maior consumo de energia, design mais complexo, custo de implementação mais elevado (mais motores e drivers).",
-                "**Componentes-chave:** Quatro motores, Amortecimento (opcional), Chassi robusto, Bateria de alta capacidade."
-            ]
-        }
-    };
-
-    // Função para atualizar a área de detalhes
-    function updateDetails(type) {
-        const data = conceptsDetails[type];
-        
-        // Constrói o HTML de detalhes
-        let html = `<h4>${data.title}</h4>`;
-        data.description.forEach(item => {
-            // Usa <p> para cada item para melhor formatação
-            html += `<p>${item}</p>`;
-        });
-
-        detailsContent.innerHTML = html;
-        
-        // Rola a página até a seção de detalhes após a atualização
-        document.getElementById('details-view').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // Adiciona evento de clique para todos os botões
-    detailButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const type = this.getAttribute('data-type');
-            updateDetails(type);
-        });
-    });
-
-    // Estado inicial: Garante que a mensagem inicial seja a primeira coisa que o usuário veja
-    detailsContent.innerHTML = `<p>Selecione um dos tipos de robôs acima para ver sua explicação técnica detalhada.</p>`;
-});

@@ -3,165 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robótica 4WD: Componentes do Seguidor de Linha (Completo)</title>
-
+    <title>🌟 Robótica Fácil: Montando Seu Carrinho 4WD</title>
+    
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f0f8ff; /* Fundo leve e amigável */
+            color: #34495e; /* Texto escuro */
             line-height: 1.6;
         }
 
         header {
-            background-color: #007bff;
+            background-color: #3498db; /* Azul vibrante */
             color: white;
-            padding: 20px;
+            padding: 30px;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        h1 {
+        header h1 {
             margin-bottom: 5px;
+            font-size: 2.4em;
         }
 
-        #componentes-container {
-            display: flex; /* Organiza os cards lado a lado */
-            flex-wrap: wrap; /* Permite quebra de linha para telas menores */
-            justify-content: center; /* Centraliza os cards */
-            padding: 20px;
-            gap: 25px; /* Espaço entre os cards */
+        main {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
         }
 
-        .component-card {
+        /* Estilo para os blocos de informação */
+        .bloco-info {
             background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 25px;
-            width: 300px; /* Largura padrão */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s;
+            padding: 30px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 6px solid #e67e22; /* Laranja de destaque */
         }
 
-        .component-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .component-card h2 {
-            color: #0056b3;
-            border-bottom: 2px solid #eee;
+        .bloco-info h2 {
+            color: #2c3e50;
+            border-bottom: 1px solid #bdc3c7;
             padding-bottom: 10px;
             margin-top: 0;
         }
+        
+        /* Oculta os blocos, o JS vai mostrar um por vez */
+        .oculto {
+            display: none;
+        }
 
-        .toggle-btn {
-            background-color: #28a745;
+        /* Botões */
+        .btn-detalhes {
+            background-color: #2ecc71; /* Verde de ação */
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
+            padding: 12px 25px;
+            margin-top: 20px;
+            border-radius: 25px;
             cursor: pointer;
-            margin-top: 15px;
+            font-size: 1em;
             font-weight: bold;
-            transition: background-color 0.3s;
-            width: 100%; /* Botão em largura total */
+            transition: background-color 0.3s ease;
         }
 
-        .toggle-btn:hover {
-            background-color: #1e7e34;
+        .btn-detalhes:hover {
+            background-color: #27ae60;
         }
 
-        .detalhes {
-            /* Estado inicial: escondido */
-            display: none;
-            margin-top: 15px;
-            padding: 15px;
-            border-left: 4px solid #007bff;
-            background-color: #e9f7ff;
-            border-radius: 4px;
+        ul {
+            list-style-type: square;
+            padding-left: 20px;
         }
 
-        /* Classe CSS que o JavaScript adicionará para exibir o texto */
-        .detalhes.active {
-            display: block; 
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #34495e;
+            color: white;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
+
     <header>
-        <h1>🤖 Componentes do Seguidor de Linha 4WD</h1>
-        <p>Clique em "Detalhes" para entender a função de cada peça essencial.</p>
+        <h1>Guia de Componentes: Carrinho Seguidor de Linha 4WD</h1>
+        <p>Aprenda de um jeito fácil como funciona cada parte do seu robô!</p>
     </header>
 
-    <main id="componentes-container">
+    <main>
+        <section id="chassi" class="bloco-info">
+            <h2>🧱 1. Chassi e Rodas: O Esqueleto e os Pneus</h2>
+            <p>O **Chassi** é a base do robô, como se fosse o **chão do seu carro**. É nele que você parafusa todas as peças (placas, motores, baterias). Ele dá a **forma** e a **resistência** ao projeto.</p>
+            <p>As **Rodas** (4 no 4WD) são os "pneus". Elas transformam o giro do motor em movimento no chão. Ter 4 rodas motrizes (**4WD**) garante que o carrinho tenha mais **força** e **estabilidade** para fazer as curvas da linha.</p>
+            <button class="btn-detalhes" data-alvo="arduino">Próximo: O Cérebro</button>
+        </section>
+
+        <section id="arduino" class="bloco-info oculto">
+            <h2>🧠 2. Arduino Uno: O Cérebro do Robô</h2>
+            <p>O **Arduino Uno** é uma pequena placa de circuito que funciona como o **cérebro** do seu robô. É nele que você carrega o **Código** (as regras).</p>
+            <ul>
+                <li>**Função:** Ele **lê** o que os sensores "veem" e **decide** para onde os motores devem girar.</li>
+                <li>**Exemplo:** Se o sensor diz "estou fora da linha", o Arduino diz ao motor: "Vire para a esquerda!".</li>
+            </ul>
+            <button class="btn-detalhes" data-alvo="sensor">Próximo: Os Olhos</button>
+        </section>
+
+        <section id="sensor" class="bloco-info oculto">
+            <h2>👁️ 3. Sensor Seguidor de Linha: Os Olhos Infravermelhos</h2>
+            <p>Estes são os **olhos** do robô. Eles usam **luz infravermelha** (que não conseguimos ver) para detectar a linha preta no chão claro.</p>
+            <ul>
+                <li>**Princípio:** O chão claro **reflete** a luz de volta. A linha preta **absorve** a luz.</li>
+                <li>**Como o Arduino lê:** O sensor envia um sinal (um 0 ou 1) para o Arduino. Com 3 a 5 sensores, o robô sabe exatamente se a linha está no centro, muito à esquerda ou muito à direita.</li>
+            </ul>
+            <button class="btn-detalhes" data-alvo="motores">Próximo: Os Músculos</button>
+        </section>
         
-        <div class="component-card">
-            <h2>🧠 Microcontrolador (Arduino/ESP)</h2>
-            <p>O **cérebro** do robô, responsável pela execução da lógica de controle.</p>
-            <button class="toggle-btn" data-info="microcontrolador">Detalhes</button>
-            <p class="detalhes" id="microcontrolador-info">
-                **Função:** Recebe continuamente os dados analógicos/digitais dos sensores de linha, processa esses dados de acordo com o algoritmo de navegação (PID ou ON/OFF) e, em seguida, envia os sinais PWM para o driver de motor, ajustando a direção e a velocidade das rodas.
-            </p>
-        </div>
+        <section id="motores" class="bloco-info oculto">
+            <h2>⚙️ 4. Motores e Motor Shield: Os Músculos e o Amplificador</h2>
+            <p>Os **Motores DC** são os **músculos**. Eles giram as rodas e fazem o robô andar. Como eles precisam de mais energia do que o Arduino pode dar, precisamos de um intermediário:</p>
+            <ul>
+                <li>**Motor Shield (Ponte H):** É um **amplificador de energia**. Ele recebe o sinal fraco do Arduino ("Gire!") e usa a energia da **bateria externa** para fazer os motores girarem com força.</li>
+                <li>**Função:** Permite que o Arduino controle a **direção** (frente/trás) e a **velocidade** dos motores de forma segura.</li>
+            </ul>
+            <button class="btn-detalhes" data-alvo="energia">Próximo: O Combustível</button>
+        </section>
+        
+        <section id="energia" class="bloco-info oculto">
+            <h2>🔋 5. Porta Pilhas e Bateria 9V: O Combustível</h2>
+            <p>O robô precisa de energia, mas de dois tipos diferentes:</p>
+            <ul>
+                <li>**Porta Pilhas (para Motores):** Fornece a **alta corrente** que os **Motores** (via Motor Shield) precisam. Geralmente usa 4 ou 6 pilhas recarregáveis (6V a 7.2V).</li>
+                <li>**Bateria 9 Volts (para Arduino):** Uma bateria menor, usada principalmente para ligar o **Arduino**. É importante que os motores e o Arduino usem fontes de energia separadas ou reguladas para evitar problemas de funcionamento.</li>
+            </ul>
+            <button class="btn-detalhes" data-alvo="fios">Próximo: As Conexões</button>
+        </section>
 
-        <div class="component-card">
-            <h2>👁️ Módulo Sensor de Linha (Infravermelho)</h2>
-            <p>Os **olhos** do robô, detectando a linha preta ou a pista branca.</p>
-            <button class="toggle-btn" data-info="sensor">Detalhes</button>
-            <p class="detalhes" id="sensor-info">
-                **Função:** Cada sensor infravermelho emite luz e mede o reflexo. A linha preta **absorve** a luz (retorno baixo), e a pista branca **reflete** a luz (retorno alto). O microcontrolador usa a diferença nesses retornos para saber onde a linha está posicionada em relação ao robô.
-            </p>
-        </div>
+        <section id="fios" class="bloco-info oculto">
+            <h2>🔌 6. Fios e Placa de Ensaio: As Conexões Nervosas</h2>
+            <p>Os **Fios Jumpers** são como os **nervos** do robô. Eles transportam os sinais elétricos e a energia entre as placas:</p>
+            <ul>
+                <li>**Função:** Conectam os sensores ao Arduino, o Arduino ao Motor Shield, e a energia da bateria às placas.</li>
+                <li>**Placa de Ensaio (Protoboard):** É um pequeno quadro com furos que ajuda a **organizar os fios** e a **distribuir a energia** para vários componentes de forma limpa, sem precisar de solda. É muito usada para testar circuitos.</li>
+            </ul>
+            <button class="btn-detalhes" data-alvo="codigos">Próximo: As Regras</button>
+        </section>
 
-        <div class="component-card">
-            <h2>💪 Ponte H (Driver de Motor)</h2>
-            <p>O **músculo** eletrônico que controla a potência e o sentido dos motores.</p>
-            <button class="toggle-btn" data-info="ponteh">Detalhes</button>
-            <p class="detalhes" id="ponteh-info">
-                **Função:** O microcontrolador não fornece corrente suficiente para os motores. A Ponte H (como L298N ou TB6612FNG) é um circuito integrado que atua como um **amplificador de corrente** e um **interruptor**. Ela permite que os motores girem para frente ou para trás, e utiliza os sinais PWM (Pulse Width Modulation) do microcontrolador para controlar a velocidade.
-            </p>
-        </div>
+        <section id="codigos" class="bloco-info oculto">
+            <h2>💻 7. Código: As Regras do Jogo</h2>
+            <p>O **Código** é a lista de instruções que você escreve e carrega no **Arduino**. Ele usa a lógica **"Se/Então"** (IF/ELSE) e define o comportamento do robô. Um código simples de seguidor de linha é assim:</p>
+            <pre>
+// O Arduino lê os sensores
+SE (Sensor Esquerdo Vê LINHA e Sensor Direito Vê LINHA)
+    ENTÃO: Motores Avançam (Siga em frente)
 
-        <div class="component-card">
-            <h2>⚙️ Chassi e Motores 4WD</h2>
-            <p>A **estrutura física** e o **sistema de locomoção** com tração total.</p>
-            <button class="toggle-btn" data-info="chassi">Detalhes</button>
-            <p class="detalhes" id="chassi-info">
-                **Função:** O **Chassi** é a plataforma que suporta todos os componentes. Os **Motores 4WD (quatro rodas motrizes)** proporcionam maior **tração** e **estabilidade** em comparação com sistemas 2WD. Isso é crucial para manter a velocidade e precisão em curvas ou superfícies menos uniformes.
-            </p>
-        </div>
+SE (Sensor Esquerdo Vê CHÃO e Sensor Direito Vê LINHA)
+    ENTÃO: Motores Viram para a ESQUERDA (Corrigir para o centro)
+
+SE (Nenhum Sensor Vê LINHA)
+    ENTÃO: Motores PARAM (A linha foi perdida!)
+            </pre>
+            <button class="btn-detalhes" data-alvo="chassi">Voltar ao Início: Chassi e Rodas</button>
+        </section>
     </main>
 
+    <footer>
+        <p>Montar um robô é como montar um quebra-cabeça. Boas construções!</p>
+    </footer>
+
     <script>
-        // Aguarda o carregamento completo do HTML
         document.addEventListener('DOMContentLoaded', () => {
-            // Seleciona todos os botões de 'Detalhes' na página
-            const toggleButtons = document.querySelectorAll('.toggle-btn');
+            const botoesDetalhes = document.querySelectorAll('.btn-detalhes');
+            const primeiraSecaoId = 'chassi'; 
 
-            // Adiciona a funcionalidade de clique a cada botão
-            toggleButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    // Obtém o ID do componente alvo a partir do atributo 'data-info'
-                    const infoId = button.getAttribute('data-info');
-                    
-                    // Constrói o ID completo do elemento de detalhes (ex: 'microcontrolador-info')
-                    const detalhesElement = document.getElementById(infoId + '-info');
+            // Função que esconde todos os blocos e mostra apenas o bloco alvo
+            function mostrarBloco(idBloco) {
+                const todosBlocos = document.querySelectorAll('.bloco-info');
 
-                    if (detalhesElement) {
-                        // Alterna a classe 'active': exibe se estava escondido, esconde se estava visível.
-                        detalhesElement.classList.toggle('active');
-
-                        // Atualiza o texto do botão com base no estado de exibição
-                        if (detalhesElement.classList.contains('active')) {
-                            button.textContent = 'Esconder Detalhes';
-                        } else {
-                            button.textContent = 'Detalhes';
-                        }
+                todosBlocos.forEach(bloco => {
+                    if (bloco.id === idBloco) {
+                        bloco.classList.remove('oculto');
+                    } else {
+                        bloco.classList.add('oculto');
                     }
                 });
+
+                // Rola a página suavemente para o novo bloco para que o usuário veja
+                document.getElementById(idBloco).scrollIntoView({ behavior: 'smooth' });
+            }
+
+            // Adiciona a função de clique a cada botão de "Próximo"
+            botoesDetalhes.forEach(botao => {
+                botao.addEventListener('click', (event) => {
+                    const alvo = event.target.getAttribute('data-alvo');
+                    mostrarBloco(alvo);
+                });
             });
+
+            // Inicia o site mostrando apenas o primeiro bloco
+            mostrarBloco(primeiraSecaoId);
         });
     </script>
 </body>

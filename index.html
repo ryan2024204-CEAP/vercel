@@ -3,33 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pac-Man Simples</title>
+    <title>Pac-Man Original</title>
     
     <style>
+        /* Variáveis de Design */
         :root {
-            --map-size: 20; /* Define o tamanho do mapa N x N */
-            --cell-size: 30px; /* Tamanho da célula */
-            --pac-color: #ff0; /* Amarelo Pac-Man */
-            --wall-color: #0000ff; /* Azul da parede */
-            --dot-color: #fff; /* Pontos brancos */
+            --map-size: 21; /* Mapa 21x21 */
+            --cell-size: 25px; 
+            --pac-color: #ffd700; /* Ouro */
+            --wall-color: #0000aa; /* Azul Marinho */
+            --dot-color: #f7f7f7; 
+            --power-pellet-color: #ffaa00;
         }
 
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #333;
+            background-color: #111;
             margin: 0;
-            font-family: sans-serif;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #score-board {
+            color: var(--pac-color);
+            font-size: 2em;
+            margin-bottom: 20px;
+            font-weight: bold;
         }
 
         #game-board {
             display: grid;
-            /* O JS definirá o template de colunas, mas aqui definimos as variáveis */
             grid-template-columns: repeat(var(--map-size), var(--cell-size));
             grid-template-rows: repeat(var(--map-size), var(--cell-size));
-            border: 5px solid #000;
+            border: 2px solid #333;
+            background-color: #000;
         }
 
         .cell {
@@ -38,6 +48,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            box-sizing: border-box;
         }
 
         /* ---------------- Estilos dos Elementos do Jogo ---------------- */
@@ -45,6 +56,7 @@
         .wall {
             background-color: var(--wall-color);
             border: 1px solid var(--wall-color);
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
         }
 
         .dot {
@@ -54,15 +66,26 @@
         .dot::after {
             content: '';
             display: block;
-            width: 6px;
-            height: 6px;
+            width: 4px;
+            height: 4px;
             background-color: var(--dot-color);
             border-radius: 50%;
+        }
+
+        .power-pellet::after {
+            content: '';
+            display: block;
+            width: 12px;
+            height: 12px;
+            background-color: var(--power-pellet-color);
+            border-radius: 50%;
+            animation: pulse 0.5s infinite alternate;
         }
 
         .pacman {
             background-color: transparent;
             position: relative;
+            animation: mouth-open 0.1s infinite alternate; /* Animação simples da boca */
         }
 
         .pacman::before {
@@ -72,24 +95,23 @@
             height: 100%;
             background-color: var(--pac-color);
             border-radius: 50%;
-            /* BOCA: O clip-path cria o efeito de boca */
-            clip-path: polygon(50% 50%, 100% 30%, 100% 70%);
-            transition: transform 0.1s ease-in-out;
+            clip-path: polygon(50% 50%, 100% 30%, 100% 70%); /* Boca semi-aberta */
         }
 
-        /* Classes de direção para rotação */
-        .pacman.right::before { transform: rotate(0deg); }
+        /* Rotação e Animação de Boca */
+        .pacman.up::before { transform: rotate(270deg); }
         .pacman.down::before { transform: rotate(90deg); }
         .pacman.left::before { transform: rotate(180deg); }
-        .pacman.up::before { transform: rotate(270deg); }
+        .pacman.right::before { transform: rotate(0deg); }
 
         .empty {
             background-color: #000;
         }
 
-        /* Estilos Fantasma (adicionais para a lógica futura) */
+        /* Estilos Fantasma (Base) */
         .ghost {
             background-color: transparent;
+            position: relative;
         }
 
         .ghost::after {
@@ -97,139 +119,237 @@
             display: block;
             width: 80%;
             height: 80%;
-            border-radius: 50% 50% 5px 5px; /* Forma básica do fantasma */
-            background-color: red; /* Cor de exemplo */
-        }
-
-        #score-board {
+            border-radius: 50% 50% 5px 5px;
             position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--pac-color);
-            font-size: 1.5em;
-            font-family: var(--font-heading);
+            top: 10%;
+            left: 10%;
         }
 
+        /* Cores dos Fantasmas Clássicos */
+        .ghost.blinky::after { background-color: #ff0000; } /* Vermelho */
+        .ghost.pinky::after { background-color: #ffb8ff; } /* Rosa */
+        .ghost.inky::after { background-color: #00ffff; } /* Ciano */
+        .ghost.clyde::after { background-color: #ffb851; } /* Laranja */
+
+        /* Animações */
+        @keyframes mouth-open {
+            from { clip-path: polygon(50% 50%, 100% 40%, 100% 60%); } /* Boca mais fechada */
+            to { clip-path: polygon(50% 50%, 100% 0%, 100% 100%); } /* Boca mais aberta */
+        }
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.3); }
+        }
     </style>
 </head>
 <body>
-    <div id="score-board">Pontuação: 0</div>
+    <div id="score-board">PONTOS: 0</div>
     <div id="game-board"></div>
 
     <script>
-        const MAP_SIZE = 20;
-        const TILE_SIZE = 30; // Correspondente ao CSS
+        const MAP_SIZE = 21;
+        const TILE_SIZE = 25; 
         const gameBoard = document.getElementById('game-board');
         const scoreBoard = document.getElementById('score-board');
         let score = 0;
+        let gameLoopInterval;
+        const FPS = 10; // Taxa de atualização (100ms por frame)
 
-        // 0: Vazio, 1: Parede, 2: Ponto (Dot), 3: Pac-Man (Posição Inicial)
-        // Criando um mapa maior (20x20)
+        // 0: Vazio/Caminho, 1: Parede, 2: Ponto, 3: Power Pellet, 4: Fantasma (Casa), 5: Pac-Man (Posição Inicial)
+        // Mapa 21x21 (Estrutura simplificada de um labirinto)
         const map = [
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            [1,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,1],
-            [1,2,1,1,1,2,1,1,2,1,1,2,1,1,1,2,1,1,2,1],
-            [1,2,1,1,1,2,1,1,2,2,2,2,1,1,1,2,1,1,2,1],
-            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
-            [1,2,1,1,1,2,1,2,1,1,1,1,1,2,1,2,1,1,2,1],
-            [1,2,2,2,2,2,1,2,2,2,2,2,1,2,2,2,2,2,2,1],
-            [1,1,1,1,1,2,1,1,1,1,1,2,1,2,1,1,1,1,1,1],
-            [0,0,0,0,1,2,1,2,2,2,2,2,1,2,1,0,0,0,0,0], // Espaço para Pac-Man (3)
-            [1,1,1,1,1,2,1,2,1,1,1,1,1,2,1,1,1,1,1,1],
-            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
-            [1,2,1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1,2,1],
-            [1,2,1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1,2,1],
-            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
-            [1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,2,1],
-            [1,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,1],
-            [1,2,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1],
-            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,3,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,3,1],
+            [1,2,1,1,1,2,1,1,2,1,2,1,2,1,1,1,2,1,1,2,1],
+            [1,2,1,1,1,2,1,1,2,2,2,2,2,1,1,1,2,1,1,2,1],
+            [1,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,2,1],
+            [1,2,1,1,1,2,1,2,1,1,1,1,1,2,1,2,1,1,1,2,1],
+            [1,2,2,2,2,2,1,2,2,2,2,2,1,2,2,2,2,2,2,2,1],
+            [1,1,1,1,1,2,1,1,1,1,1,2,1,2,1,1,1,1,1,1,1],
+            [0,0,0,0,1,2,1,2,4,4,4,2,1,2,1,0,0,0,0,0,0], // Saída do Pac-Man (0,0,0,0,1...) e Casa dos Fantasmas (4)
+            [1,1,1,1,1,2,1,2,4,4,4,2,1,2,1,1,1,1,1,1,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,2,1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1,2,1,1],
+            [1,2,1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1,2,1,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1],
+            [1,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,2,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1,1],
+            [1,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
         ];
         
-        // Posição inicial do Pac-Man (adaptada ao mapa)
-        let pacman = {
-            x: 5,
-            y: 9,
-            direction: 'right'
-        };
+        // Posições
+        let pacman = { x: 1, y: 1, direction: 'right', nextDirection: 'right' };
+        let ghosts = [
+            { id: 'blinky', x: 10, y: 8, direction: 'left', className: 'blinky' },
+            { id: 'pinky', x: 9, y: 9, direction: 'up', className: 'pinky' },
+            // ... (adicionar mais fantasmas e lógica de IA)
+        ];
 
-        // 1. FUNÇÃO DE DESENHO
+        // ----------------- FUNÇÕES DE DESENHO -----------------
+
         function drawMap() {
-            gameBoard.innerHTML = ''; // Limpa o tabuleiro
+            gameBoard.innerHTML = '';
             for (let y = 0; y < map.length; y++) {
                 for (let x = 0; x < map[y].length; x++) {
                     const cell = document.createElement('div');
                     cell.classList.add('cell');
                     
-                    const cellValue = map[y][x];
-
-                    if (cellValue === 1) {
-                        cell.classList.add('wall');
-                    } else if (cellValue === 2) {
-                        cell.classList.add('dot');
-                    } else if (cellValue === 0) {
-                        cell.classList.add('empty');
+                    switch (map[y][x]) {
+                        case 1: cell.classList.add('wall'); break;
+                        case 2: cell.classList.add('dot'); break;
+                        case 3: cell.classList.add('power-pellet'); break;
+                        case 0: 
+                        case 4: cell.classList.add('empty'); break; // 4 é a casa dos fantasmas
                     }
                     
-                    // Adiciona o Pac-Man na sua posição atual
+                    // Desenha Pac-Man
                     if (y === pacman.y && x === pacman.x) {
                         cell.classList.add('pacman', pacman.direction);
                     }
 
-                    cell.dataset.x = x;
-                    cell.dataset.y = y;
+                    // Desenha Fantasmas
+                    ghosts.forEach(ghost => {
+                        if (y === ghost.y && x === ghost.x) {
+                            cell.classList.remove('empty', 'dot', 'pacman');
+                            cell.classList.add('ghost', ghost.className);
+                        }
+                    });
+
                     gameBoard.appendChild(cell);
                 }
             }
         }
 
-        // 2. FUNÇÃO DE MOVIMENTO
-        function movePacman(dx, dy, newDirection) {
-            const newX = pacman.x + dx;
-            const newY = pacman.y + dy;
+        // ----------------- LÓGICA DE MOVIMENTO -----------------
 
-            // Verifica se a nova posição é válida (não é uma parede)
-            if (map[newY] && map[newY][newX] !== 1) {
-                // Remove a classe 'pacman' da posição antiga (opcional se redesenhar tudo)
-                // O drawMap() já faz isso, mas é bom ter a lógica de colisão aqui.
-
-                pacman.x = newX;
-                pacman.y = newY;
-                pacman.direction = newDirection;
-
-                // Lógica de comer ponto
-                if (map[newY][newX] === 2) {
-                    map[newY][newX] = 0; // Torna o ponto vazio
-                    score += 10;
-                    scoreBoard.textContent = `Pontuação: ${score}`;
-                }
-
-                drawMap(); // Redesenha o mapa com o Pac-Man na nova posição
+        function getDelta(direction) {
+            switch (direction) {
+                case 'up': return { dx: 0, dy: -1 };
+                case 'down': return { dx: 0, dy: 1 };
+                case 'left': return { dx: -1, dy: 0 };
+                case 'right': return { dx: 1, dy: 0 };
+                default: return { dx: 0, dy: 0 };
             }
         }
 
-        // 3. FUNÇÃO DE CONTROLE
-        document.addEventListener('keydown', (e) => {
+        function checkCollision(x, y) {
+            // Verifica se está dentro dos limites e não é parede
+            if (y >= 0 && y < MAP_SIZE && x >= 0 && x < MAP_SIZE) {
+                return map[y][x] !== 1; // Retorna true se NÃO for parede
+            }
+            return false;
+        }
+
+        function gameTick() {
+            // 1. Tenta mover Pac-Man na direção desejada (sem delay)
+            let { dx: nextDx, dy: nextDy } = getDelta(pacman.nextDirection);
+            
+            if (checkCollision(pacman.x + nextDx, pacman.y + nextDy)) {
+                // Se o próximo movimento for válido, muda a direção
+                pacman.direction = pacman.nextDirection;
+            } else {
+                // Se não puder seguir a direção desejada, tenta continuar na direção atual
+                let { dx: currentDx, dy: currentDy } = getDelta(pacman.direction);
+                if (!checkCollision(pacman.x + currentDx, pacman.y + currentDy)) {
+                    // Parado
+                    nextDx = 0; 
+                    nextDy = 0;
+                } else {
+                    nextDx = currentDx;
+                    nextDy = currentDy;
+                }
+            }
+            
+            // 2. Aplica o movimento
+            pacman.x += nextDx;
+            pacman.y += nextDy;
+
+            // 3. Lógica de Comer
+            const currentTile = map[pacman.y][pacman.x];
+            if (currentTile === 2) {
+                map[pacman.y][pacman.x] = 0; // Come o ponto
+                score += 10;
+            } else if (currentTile === 3) {
+                map[pacman.y][pacman.x] = 0; // Come o Power Pellet
+                score += 50;
+                // Ativar modo Fantasma Azul (necessita de mais lógica de jogo)
+            }
+            
+            scoreBoard.textContent = `PONTOS: ${score}`;
+
+            // 4. Lógica Básica de Movimento dos Fantasmas (Apenas Blinky)
+            ghosts.forEach(ghost => {
+                // IA Simplificada: Tenta se mover aleatoriamente
+                const directions = ['up', 'down', 'left', 'right'];
+                const validMoves = directions.filter(dir => {
+                    const { dx, dy } = getDelta(dir);
+                    return checkCollision(ghost.x + dx, ghost.y + dy);
+                });
+
+                if (validMoves.length > 0) {
+                    const newDirection = validMoves[Math.floor(Math.random() * validMoves.length)];
+                    const { dx, dy } = getDelta(newDirection);
+
+                    // Verifica se o fantasma não está voltando imediatamente, se possível
+                    const opposite = { 'up': 'down', 'down': 'up', 'left': 'right', 'right': 'left' };
+                    if (validMoves.length > 1 && newDirection === opposite[ghost.direction]) {
+                        // Tenta escolher outro caminho
+                    }
+
+                    ghost.x += dx;
+                    ghost.y += dy;
+                    ghost.direction = newDirection;
+                }
+
+                // 5. Verificação de Colisão com Fantasma
+                if (pacman.x === ghost.x && pacman.y === ghost.y) {
+                    gameOver();
+                }
+            });
+
+            drawMap();
+        }
+
+        // ----------------- CONTROLE E INICIALIZAÇÃO -----------------
+
+        function handleInput(e) {
+            let newDirection = null;
             switch (e.key) {
                 case 'ArrowUp':
-                    movePacman(0, -1, 'up');
+                case 'w':
+                    newDirection = 'up';
                     break;
                 case 'ArrowDown':
-                    movePacman(0, 1, 'down');
+                case 's':
+                    newDirection = 'down';
                     break;
                 case 'ArrowLeft':
-                    movePacman(-1, 0, 'left');
+                case 'a':
+                    newDirection = 'left';
                     break;
                 case 'ArrowRight':
-                    movePacman(1, 0, 'right');
+                case 'd':
+                    newDirection = 'right';
                     break;
             }
-        });
+            if (newDirection) {
+                pacman.nextDirection = newDirection; // Armazena o próximo movimento
+            }
+        }
 
-        // Inicializa o jogo
+        function gameOver() {
+            clearInterval(gameLoopInterval);
+            alert(`Fim de Jogo! Sua Pontuação Final: ${score}`);
+            // Adicionar lógica de reinício aqui
+        }
+
+        document.addEventListener('keydown', handleInput);
+
+        // Inicializa o jogo e o loop
         drawMap();
+        gameLoopInterval = setInterval(gameTick, 1000 / FPS); // 1000ms / 10 FPS = 100ms
     </script>
 </body>
 </html>

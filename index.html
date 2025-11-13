@@ -1,438 +1,269 @@
-## 🤖 Design Estilizado de Robótica Móvel (Código Completo)
-
-Aqui está o código completo em um único arquivo HTML, incluindo o CSS (`<style>`) e o JavaScript (`<script>`), com explicações detalhadas sobre os componentes dos carrinhos Seguidor de Linha, 2WD e 4WD. As explicações de cada função estão detalhadas e sem asteriscos.
-
-Você pode salvar este código como **`index.html`** e abri-lo diretamente no seu navegador.
-
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robótica Móvel - Componentes e Tração</title>
-    
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+    <title>Robótica Fácil: Seguidor de Linha 4WD</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
-        /* Variáveis CSS */
+        /* Variáveis CSS para Cores e Fontes */
         :root {
-            --color-bg-dark: #121212;
-            --color-bg-light-dark: #1e1e1e;
-            --color-primary-blue: #007bff; /* Principal destaque */
-            --color-accent-cyan: #00bcd4; /* Destaque secundário */
-            --color-text-light: #e0e0e0;
-            --color-text-muted: #a0a0a0;
-            --font-heading: 'Orbitron', sans-serif;
+            --primary-color: #007BFF; /* Azul Principal */
+            --secondary-color: #28a745; /* Verde de Destaque */
+            --accent-color: #ffc107; /* Amarelo de Alerta */
+            --text-color: #343a40;
+            --light-bg: #f8f9fa;
+            --dark-bg: #e9ecef;
+
+            --font-heading: 'Montserrat', sans-serif;
             --font-body: 'Roboto', sans-serif;
         }
 
-        /* Reset Básico */
-        * {
+        /* Estilos Básicos e Reset */
+        body {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
             font-family: var(--font-body);
-            color: var(--color-text-light);
-            background-color: var(--color-bg-dark);
+            color: var(--text-color);
+            background-color: var(--light-bg);
             line-height: 1.6;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        /* Estilo do Cabeçalho */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .bg-dark {
-            background-color: var(--color-bg-light-dark);
-        }
-
-        .common-section {
-            padding: 80px 0;
-        }
-
-        /* --- Header e Navbar --- */
-        .main-header {
-            background-color: var(--color-bg-light-dark);
-            padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .logo {
-            font-family: var(--font-heading);
-            font-size: 1.8em;
-            color: var(--color-accent-cyan);
-            letter-spacing: 1px;
-        }
-
-        .logo i {
-            margin-right: 10px;
-            color: var(--color-primary-blue);
-        }
-
-        /* --- Títulos --- */
-        .section-title {
+        header h1 {
             font-family: var(--font-heading);
             font-size: 2.5em;
-            text-align: center;
-            margin-bottom: 50px;
-            color: var(--color-primary-blue);
-            text-transform: uppercase;
-            position: relative;
-            padding-bottom: 15px;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            bottom: 0;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background-color: var(--color-accent-cyan);
-        }
-
-        /* --- Hero Section --- */
-        .hero-section {
-            height: 70vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://via.placeholder.com/1920x800/2c2c4d/00bcd4?text=Robotic+Circuits+Background') no-repeat center center/cover;
-        }
-
-        .hero-title {
-            font-family: var(--font-heading);
-            font-size: 3.8em;
-            margin-bottom: 15px;
-            color: white;
-            text-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
-        }
-
-        .hero-subtitle {
-            font-size: 1.3em;
-            color: var(--color-text-muted);
-            margin-bottom: 30px;
-        }
-
-        .btn-primary {
-            display: inline-block;
-            padding: 12px 30px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-family: var(--font-heading);
-            background-color: var(--color-primary-blue);
-            color: white;
-            border: 2px solid var(--color-primary-blue);
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background-color: transparent;
-            color: var(--color-primary-blue);
-            box-shadow: 0 0 15px rgba(0, 123, 255, 0.6);
-        }
-
-        /* --- Concepts Section (Cards) --- */
-        .concepts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .concept-card {
-            background-color: var(--color-bg-dark);
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            border: 1px solid #333;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-            min-height: 250px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .concept-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--color-accent-cyan);
-        }
-
-        .concept-card i {
-            color: var(--color-accent-cyan);
-            margin-bottom: 15px;
-            font-size: 3em;
-            text-shadow: 0 0 8px rgba(0, 188, 212, 0.5);
-        }
-
-        .concept-card h3 {
-            font-family: var(--font-heading);
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-
-        .concept-card p {
-            color: var(--color-text-muted);
-            font-size: 0.95em;
-            flex-grow: 1;
-        }
-
-        .btn-detail {
-            background-color: var(--color-bg-light-dark);
-            color: var(--color-primary-blue);
-            padding: 8px 15px;
-            border: 1px solid var(--color-primary-blue);
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-detail:hover {
-            background-color: var(--color-primary-blue);
-            color: white;
-        }
-
-        /* --- Details View --- */
-        .details-box {
-            background-color: var(--color-bg-dark);
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-            border: 2px solid var(--color-border-dark);
-            min-height: 250px;
-            text-align: left;
-        }
-
-        #details-content {
-             line-height: 1.7; /* Aumenta a legibilidade do texto detalhado */
-        }
-
-        #details-content h4 {
-            font-family: var(--font-heading);
-            font-size: 2em;
-            color: var(--color-accent-cyan);
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            text-align: center;
-        }
-        
-        #details-content h5 {
-            font-family: var(--font-heading);
-            font-size: 1.2em;
-            color: var(--color-primary-blue);
-            margin-top: 25px;
             margin-bottom: 5px;
         }
 
-        #details-content p {
-            font-size: 1em;
-            color: var(--color-text-light);
-            line-height: 1.6;
-            margin-left: 20px;
+        header p {
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+
+        /* Container Principal dos Componentes (CSS Grid para layout) */
+        #componentes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Estilo do Card Individual */
+        .component-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .component-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .component-card h2 {
+            font-family: var(--font-heading);
+            color: var(--primary-color);
+            font-size: 1.4em;
+            margin-top: 15px;
             margin-bottom: 10px;
         }
-        
-        #details-content .intro-text {
+
+        .icon-placeholder {
+            font-size: 2.5em;
+            color: var(--secondary-color);
+            background-color: var(--dark-bg);
+            padding: 15px;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .component-card > p {
+            font-size: 0.95em;
+            color: #6c757d;
+            flex-grow: 1;
+        }
+
+        /* Botão de Detalhes */
+        .toggle-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            margin-top: 15px;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        .toggle-btn:hover {
+            background-color: #1e7e34;
+            transform: translateY(-2px);
+        }
+
+        /* Seção de Detalhes Expandidos */
+        .detalhes {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border-left: 4px solid var(--accent-color);
+            background-color: #fffbeb;
+            border-radius: 5px;
+            text-align: left;
+            font-size: 0.9em;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.4s ease-out, max-height 0.5s ease-out;
+            color: var(--text-color);
+        }
+
+        .detalhes strong {
+            color: #d89e00;
+        }
+
+        .detalhes.active {
+            display: block;
+            opacity: 1;
+            max-height: 500px;
+        }
+
+        /* Rodapé */
+        footer {
             text-align: center;
-            font-style: italic;
-            color: var(--color-text-muted);
-            margin-bottom: 30px;
+            padding: 20px;
+            margin-top: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 0.9em;
         }
 
-        /* --- Footer --- */
-        .main-footer {
-            background-color: #0d0d0d;
-            padding: 20px 0;
-            text-align: center;
-            border-top: 1px solid #333;
-        }
-
-        .main-footer p {
-            color: var(--color-text-muted);
-            font-size: 0.85em;
-        }
-
-        /* --- Responsividade --- */
+        /* Responsividade */
         @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5em;
-            }
-            .hero-subtitle {
-                font-size: 1em;
-            }
-            .concepts-grid {
-                grid-template-columns: 1fr;
-            }
-            .section-title {
+            header h1 {
                 font-size: 2em;
             }
-            .details-box {
-                padding: 25px;
+            #componentes-container {
+                padding: 20px;
+                gap: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="page-wrapper">
-        
-<header class="main-header">
-            <nav class="navbar">
-                <div class="logo">
-                    <i class="fas fa-robot"></i> TechDrive
-                </div>
-            </nav>
-        </header>
+    <header>
+        <h1><i class="fas fa-microchip"></i> Robô Seguidor de Linha 4WD para Iniciantes</h1>
+        <p>Aprenda de forma simples como as peças do seu robô funcionam!</p>
+    </header>
 
+    <main id="componentes-container">
         
-<section id="hero" class="hero-section">
-            <div class="container hero-content">
-                <h1 class="hero-title">Explorando a Robótica Móvel</h1>
-                <p class="hero-subtitle">Entenda as diferenças e funções de cada componente nos sistemas de tração e navegação.</p>
-                <a href="#concepts" class="btn-primary">Conhecer os Tipos <i class="fas fa-arrow-down"></i></a>
+        <div class="component-card">
+            <div class="icon-placeholder"><i class="fas fa-brain"></i></div>
+            <h2>O Cérebro: Microcontrolador</h2>
+            <p>É quem decide tudo! Recebe informações dos olhos (sensores) e diz para os músculos (motores) o que fazer.</p>
+            <button class="toggle-btn" data-info="microcontrolador">O que ele faz?</button>
+            <div class="detalhes" id="microcontrolador-info">
+                **Analogia:** Pense nele como o **piloto de Fórmula 1** do robô.
+                **Explicação Fácil:** Ele armazena e executa o **programa** (o seu código). Ele lê constantemente os dados dos sensores e, com base nas regras que você criou, decide se deve virar para a esquerda, para a direita, ou seguir em frente. É o centro de **controle** do robô.
             </div>
-        </section>
+        </div>
 
-        
-<section id="concepts" class="concepts-section common-section bg-dark">
-            <div class="container">
-                <h2 class="section-title">Tipos de Robôs Móveis</h2>
-                <div class="concepts-grid">
-                    
-<div class="concept-card" id="lineFollower">
-                        <i class="fas fa-route fa-3x"></i>
-                        <h3>Seguidor de Linha</h3>
-                        <p>Robôs programados para seguir um caminho pré-determinado usando sensores. Essenciais para automação e competições de precisão.</p>
-                        <button class="btn-detail" data-type="lineFollower">Ver Componentes</button>
-                    </div>
-                    
-<div class="concept-card" id="twoWD">
-                        <i class="fas fa-car-side fa-3x"></i>
-                        <h3>Carrinho 2WD</h3>
-                        <p>Design de tração simples com duas rodas motoras. Ideal para projetos introdutórios, leves e superfícies planas.</p>
-                        <button class="btn-detail" data-type="twoWD">Ver Componentes</button>
-                    </div>
-                    
-<div class="concept-card" id="fourWD">
-                        <i class="fas fa-truck-monster fa-3x"></i>
-                        <h3>Carrinho 4WD</h3>
-                        <p>Possui quatro rodas motoras independentes. Oferece máxima tração, estabilidade e capacidade para terrenos irregulares.</p>
-                        <button class="btn-detail" data-type="fourWD">Ver Componentes</button>
-                    </div>
-                </div>
+        <div class="component-card">
+            <div class="icon-placeholder"><i class="fas fa-lightbulb"></i></div>
+            <h2>Os Olhos: Módulo Sensor de Linha</h2>
+            <p>Estes são os sensores que olham para o chão e diferenciam a cor escura da linha da cor clara da pista.</p>
+            <button class="toggle-btn" data-info="sensor">Como ele enxerga?</button>
+            <div class="detalhes" id="sensor-info">
+                **Analogia:** Pense neles como **faróis** que medem a luz que volta.
+                **Explicação Fácil:** Eles usam luz **infravermelha** (IR). A linha preta **absorve** quase toda a luz (retorno baixo), e a pista branca **reflete** a luz de volta (retorno alto). O microcontrolador usa essa diferença de reflexo para saber se o robô está em cima da linha, à esquerda ou à direita.
             </div>
-        </section>
-        
-<section id="details-view" class="common-section">
-            <div class="container">
-                <h2 class="section-title">Análise Técnica dos Componentes</h2>
-                <div class="details-box">
-                    <div id="details-content">
-                        <p class="intro-text">Selecione um dos tipos de robôs acima para ver a função detalhada de cada componente.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+        </div>
 
-        
-<footer class="main-footer">
-            <div class="container">
-                <p>&copy; 2024 Projeto Robótica Móvel. Todos os direitos reservados.</p>
+        <div class="component-card">
+            <div class="icon-placeholder"><i class="fas fa-bolt"></i></div>
+            <h2>O Músculo: Ponte H (Driver)</h2>
+            <p>Funciona como um super-amplificador. Recebe a ordem fraca do cérebro e libera a energia forte da bateria para os motores.</p>
+            <button class="toggle-btn" data-info="ponteh">Como ele dá força?</button>
+            <div class="detalhes" id="ponteh-info">
+                **Analogia:** Pense nele como um **interruptor de alta potência** e um **acelerador**.
+                **Explicação Fácil:** O microcontrolador só pode enviar um "sinal" fraco. A **Ponte H** pega esse sinal e, usando a energia da bateria, **amplifica** essa ordem para que os motores girem. Ela também controla o **sentido** (frente ou trás) e a **velocidade** dos quatro motores, tornando as curvas mais eficientes.
             </div>
-        </footer>
-    </div>
+        </div>
 
-    
+        <div class="component-card">
+            <div class="icon-placeholder"><i class="fas fa-truck"></i></div>
+            <h2>A Estrutura: Chassi e Motores 4WD</h2>
+            <p>O corpo físico do robô (chassi) e a força total nas quatro rodas para ter mais estabilidade e tração.</p>
+            <button class="toggle-btn" data-info="chassi">Por que 4 rodas?</button>
+            <div class="detalhes" id="chassi-info">
+                **Analogia:** Pense nele como o **chassi e motor de uma caminhonete 4x4**.
+                **Explicação Fácil:** O **Chassi** é a plataforma que segura todas as peças juntas. Os **Motores 4WD** (Quatro Rodas Motrizes) dão **tração** em todas as rodas. Isso é excelente porque o robô tem mais **força** e **estabilidade** para fazer curvas rápidas ou passar por pequenos desníveis na pista sem escorregar.
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Robótica Simples. Design e Explicações para Iniciantes.</p>
+    </footer>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const detailButtons = document.querySelectorAll('.btn-detail');
-            const detailsContent = document.getElementById('details-content');
-            
-            // Mapeamento dos detalhes (o conteúdo que será exibido)
-            const conceptsDetails = {
-                lineFollower: {
-                    title: "Seguidor de Linha: Precisão e Sensores",
-                    description: [
-                        { comp: "Princípio de Funcionamento", func: "É um robô autônomo que segue uma linha escura ou clara pré-determinada. O controle de movimento é baseado no feedback contínuo dos sensores para corrigir a direção." },
-                        { comp: "Sensores de Refletância Infravermelho (IR)", func: "Esses sensores emitem luz IR e medem a intensidade refletida. Superfícies escuras absorvem a luz (retorno baixo), enquanto superfícies claras ou a linha refletem (retorno alto). O robô usa a diferença para saber se está sobre, à esquerda ou à direita da linha." },
-                        { comp: "Microcontrolador (Cérebro)", func: "É o processador principal (exemplo: Arduino, ESP32). Ele lê os dados de todos os sensores IR, executa o algoritmo de controle (PID, proporcional, etc.) e envia os comandos de velocidade e direção para os motores através do driver." },
-                        { comp: "Driver de Motor (Ponte H)", func: "Circuito eletrônico que recebe o sinal de controle de baixa potência do Microcontrolador e o converte em energia de alta potência necessária para movimentar os motores DC. Também permite a inversão da polaridade para fazer o motor girar para frente ou para trás." },
-                        { comp: "Motores DC", func: "Convertem energia elétrica em movimento rotacional (mecânico). Eles são conectados diretamente às rodas principais para fornecer a tração necessária ao movimento." }
-                    ]
-                },
-                twoWD: {
-                    title: "Carrinho 2WD: Simplicidade e Agilidade",
-                    description: [
-                        { comp: "Princípio de Funcionamento", func: "Possui duas rodas motrizes controladas individualmente e uma roda passiva de apoio (roda boba ou caster). A direção é controlada por 'direção diferencial', onde a velocidade das duas rodas motrizes é ajustada para fazer curvas." },
-                        { comp: "Rodas Motoras e Pneus", func: "São as rodas que recebem o torque diretamente dos motores. Os pneus de borracha aumentam a fricção (aderência) com o solo para garantir que a força do motor se converta em movimento sem derrapagem excessiva." },
-                        { comp: "Roda Caster ou Roda Boba", func: "É uma roda pequena e livre, geralmente feita de plástico ou metal, que não é motorizada. Sua única função é dar suporte e estabilidade ao chassi, permitindo que as duas rodas motoras determinem toda a direção e movimento." },
-                        { comp: "Chassi", func: "A estrutura física, geralmente de acrílico ou metal, que serve como base para montar todos os componentes eletrônicos, motores e a bateria. Define o formato e o centro de gravidade do carrinho." },
-                        { comp: "Bateria", func: "Fonte de energia portátil (exemplo: LiPo ou pilhas AA) que alimenta todos os componentes do carrinho, incluindo o Microcontrolador e os motores (através do Driver de Motor)." }
-                    ]
-                },
-                fourWD: {
-                    title: "Carrinho 4WD: Potência e Estabilidade",
-                    description: [
-                        { comp: "Princípio de Funcionamento", func: "Possui quatro motores, um para cada roda, fornecendo tração máxima e controle de torque aprimorado. O sistema 4WD garante que o robô continue em movimento mesmo se uma roda perder a tração." },
-                        { comp: "Quatro Motores de Alta Potência", func: "Cada roda tem seu próprio motor. Isso distribui o torque e permite que o carrinho suba inclinações mais acentuadas e enfrente terrenos mais desafiadores, como areia, cascalho ou obstáculos." },
-                        { comp: "Sistema de Suspensão (Opcional)", func: "Em modelos avançados, a suspensão ajuda a manter todas as rodas em contato com o solo em terrenos irregulares, absorvendo choques e vibrações, o que é crucial para manter a estabilidade da plataforma de sensores ou câmera." },
-                        { comp: "Chassi Robusto", func: "Normalmente construído com materiais mais resistentes (como alumínio ou chapas grossas de acrílico) para suportar o peso adicional dos motores e a tensão das operações off-road." },
-                        { comp: "Módulos de Comunicação (WiFi/Bluetooth)", func: "Frequentemente usados em 4WD para controle remoto e teleoperação, permitindo que o usuário envie comandos de direção e receba dados de telemetria (como bateria e inclinação) de longas distâncias." }
-                    ]
-                }
-            };
+        document.addEventListener('DOMContentLoaded', () => {
+            // Seleciona todos os botões de expandir/esconder
+            const toggleButtons = document.querySelectorAll('.toggle-btn');
 
-            // Função para atualizar a área de detalhes
-            function updateDetails(type) {
-                const data = conceptsDetails[type];
-                
-                // Constrói o HTML de detalhes
-                let html = `<h4>${data.title}</h4>`;
-                data.description.forEach(item => {
-                    html += `<h5>${item.comp}</h5>`;
-                    html += `<p>${item.func}</p>`;
-                });
+            // Adiciona a função de clique a cada botão
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Pega o ID do componente alvo
+                    const infoId = button.getAttribute('data-info');
+                    
+                    // Encontra a caixa de texto dos detalhes correspondente
+                    const detalhesElement = document.getElementById(infoId + '-info');
 
-                detailsContent.innerHTML = html;
-                
-                // Rola a página até a seção de detalhes após a atualização
-                document.getElementById('details-view').scrollIntoView({ behavior: 'smooth' });
-            }
+                    if (detalhesElement) {
+                        // Alterna a classe 'active' para mostrar/esconder com transição
+                        detalhesElement.classList.toggle('active');
 
-            // Adiciona evento de clique para todos os botões
-            detailButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const type = this.getAttribute('data-type');
-                    updateDetails(type);
+                        // Atualiza o texto do botão para indicar o estado atual
+                        if (detalhesElement.classList.contains('active')) {
+                            button.textContent = 'Esconder Explicação';
+                        } else {
+                            button.textContent = 'O que ele faz?';
+                        }
+                    }
                 });
             });
-
-            // Estado inicial: Garante que a mensagem inicial seja a primeira coisa que o usuário veja
-            detailsContent.innerHTML = `<p class="intro-text">Selecione um dos tipos de robôs acima para ver a função detalhada de cada componente.</p>`;
         });
     </script>
 </body>
 </html>
-```

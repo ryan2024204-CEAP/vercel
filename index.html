@@ -3,262 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robótica Essencial: Seguidor de Linha 4WD</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+    <title>Pac-Man Simples</title>
+    
     <style>
-        /* Variáveis CSS */
         :root {
-            --primary-color: #0d6efd; /* Azul Profissional */
-            --secondary-color: #198754; /* Verde Sucesso */
-            --accent-color: #ffc107; /* Amarelo Energia */
-            --text-color: #212529;
-            --light-bg: #f8f9fa;
-            --card-bg: #ffffff;
-
-            --font-heading: 'Poppins', sans-serif;
-            --font-body: 'Roboto', sans-serif;
+            --map-size: 20; /* Define o tamanho do mapa N x N */
+            --cell-size: 30px; /* Tamanho da célula */
+            --pac-color: #ff0; /* Amarelo Pac-Man */
+            --wall-color: #0000ff; /* Azul da parede */
+            --dot-color: #fff; /* Pontos brancos */
         }
 
-        /* Estilos Globais */
         body {
-            margin: 0;
-            padding: 0;
-            font-family: var(--font-body);
-            color: var(--text-color);
-            background-color: var(--light-bg);
-            line-height: 1.6;
-        }
-
-        /* ----------------------- Header ----------------------- */
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        header h1 {
-            font-family: var(--font-heading);
-            font-size: 2.8em;
-            margin-bottom: 5px;
-            z-index: 10;
-        }
-
-        header p {
-            font-size: 1.2em;
-            font-weight: 300;
-            z-index: 10;
-        }
-
-        /* ----------------------- Container Principal ----------------------- */
-        #componentes-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            padding: 40px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* ----------------------- Cartões de Componentes ----------------------- */
-        .component-card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            border-bottom: 5px solid var(--primary-color);
-        }
-
-        .component-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .icon-placeholder {
-            font-size: 3em;
-            color: var(--secondary-color);
-            background-color: var(--light-bg);
-            padding: 15px;
-            border-radius: 50%;
-            width: 70px;
-            height: 70px;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            min-height: 100vh;
+            background-color: #333;
+            margin: 0;
+            font-family: sans-serif;
         }
 
-        .component-card h2 {
-            font-family: var(--font-heading);
-            color: var(--primary-color);
-            font-size: 1.6em;
-            margin: 20px 0 10px 0;
+        #game-board {
+            display: grid;
+            /* O JS definirá o template de colunas, mas aqui definimos as variáveis */
+            grid-template-columns: repeat(var(--map-size), var(--cell-size));
+            grid-template-rows: repeat(var(--map-size), var(--cell-size));
+            border: 5px solid #000;
         }
 
-        .component-card > p {
-            font-size: 1em;
-            color: #6c757d;
-            flex-grow: 1; /* Garante que o texto ocupe o espaço para botões alinhados */
+        .cell {
+            width: var(--cell-size);
+            height: var(--cell-size);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* ----------------------- Botão de Interação ----------------------- */
-        .toggle-btn {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 700;
-            margin-top: 20px;
-            transition: background-color 0.3s, transform 0.2s;
-            width: 100%;
-            max-width: 220px;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        /* ---------------- Estilos dos Elementos do Jogo ---------------- */
+
+        .wall {
+            background-color: var(--wall-color);
+            border: 1px solid var(--wall-color);
         }
 
-        .toggle-btn:hover {
-            background-color: #157347;
-            transform: translateY(-2px);
+        .dot {
+            background-color: transparent;
         }
 
-        /* ----------------------- Detalhes Expandidos (Explicação) ----------------------- */
-        .detalhes {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            border-left: 5px solid var(--accent-color);
-            background-color: #fff8e1; /* Amarelo Suave */
-            border-radius: 8px;
-            text-align: left;
-            font-size: 0.95em;
-            opacity: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: opacity 0.4s ease-out, max-height 0.6s ease-out;
-            color: var(--text-color);
-        }
-        
-        .detalhes strong {
-            color: #b08d00;
-        }
-
-        .detalhes.active {
+        .dot::after {
+            content: '';
             display: block;
-            opacity: 1;
-            max-height: 500px;
+            width: 6px;
+            height: 6px;
+            background-color: var(--dot-color);
+            border-radius: 50%;
         }
 
-        /* ----------------------- Rodapé ----------------------- */
-        footer {
-            text-align: center;
-            padding: 30px;
-            margin-top: 50px;
-            background-color: var(--text-color);
-            color: white;
-            font-size: 0.9em;
+        .pacman {
+            background-color: transparent;
+            position: relative;
         }
 
-        /* ----------------------- Responsividade ----------------------- */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2em;
-            }
-            .component-card {
-                padding: 25px;
-            }
+        .pacman::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--pac-color);
+            border-radius: 50%;
+            /* BOCA: O clip-path cria o efeito de boca */
+            clip-path: polygon(50% 50%, 100% 30%, 100% 70%);
+            transition: transform 0.1s ease-in-out;
         }
+
+        /* Classes de direção para rotação */
+        .pacman.right::before { transform: rotate(0deg); }
+        .pacman.down::before { transform: rotate(90deg); }
+        .pacman.left::before { transform: rotate(180deg); }
+        .pacman.up::before { transform: rotate(270deg); }
+
+        .empty {
+            background-color: #000;
+        }
+
+        /* Estilos Fantasma (adicionais para a lógica futura) */
+        .ghost {
+            background-color: transparent;
+        }
+
+        .ghost::after {
+            content: '';
+            display: block;
+            width: 80%;
+            height: 80%;
+            border-radius: 50% 50% 5px 5px; /* Forma básica do fantasma */
+            background-color: red; /* Cor de exemplo */
+        }
+
+        #score-board {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--pac-color);
+            font-size: 1.5em;
+            font-family: var(--font-heading);
+        }
+
     </style>
 </head>
 <body>
-    <header>
-        <h1><i class="fas fa-microchip"></i> Explicação de Robótica 4WD</h1>
-        <p>Conheça as peças essenciais do seu robô seguidor de linha de forma simples e direta.</p>
-    </header>
-
-    <main id="componentes-container">
-        
-        <div class="component-card">
-            <div class="icon-placeholder"><i class="fas fa-brain"></i></div>
-            <h2>O Cérebro: Microcontrolador</h2>
-            <p>O centro de controle. Recebe dados dos sensores e executa o código que diz ao robô o que fazer.</p>
-            <button class="toggle-btn" data-info="microcontrolador">Ver Função</button>
-            <div class="detalhes" id="microcontrolador-info">
-                **Função Direta:** Ele é o **piloto** do robô. Sua tarefa é processar as informações (os "olhos" do robô) e tomar decisões, como **virar a roda** ou **acelerar**. Ele armazena o programa que você escreveu. Exemplos comuns são o **Arduino** ou o **ESP32**.
-            </div>
-        </div>
-
-        <div class="component-card">
-            <div class="icon-placeholder"><i class="fas fa-eye"></i></div>
-            <h2>Os Olhos: Módulo Sensor de Linha</h2>
-            <p>Usado para identificar o contraste entre a linha e a pista, guiando o robô.</p>
-            <button class="toggle-btn" data-info="sensor">Ver Função</button>
-            <div class="detalhes" id="sensor-info">
-                **Função Direta:** Eles usam luz **infravermelha** (IR) invisível. A luz **não volta** quando está na linha escura (absorve), mas **volta forte** quando está na pista clara (reflete). O cérebro lê essa diferença para saber onde a linha está, como se fosse um **scanner de chão**.
-            </div>
-        </div>
-
-        <div class="component-card">
-            <div class="icon-placeholder"><i class="fas fa-cogs"></i></div>
-            <h2>O Músculo: Ponte H (Driver)</h2>
-            <p>Converte o sinal fraco do microcontrolador na energia forte necessária para girar os motores.</p>
-            <button class="toggle-btn" data-info="ponteh">Ver Função</button>
-            <div class="detalhes" id="ponteh-info">
-                **Função Direta:** O cérebro não tem força para mover os motores grandes. A Ponte H é o **amplificador de força**. Ela recebe a ordem de **sentido** (frente/trás) e de **velocidade** do cérebro e usa a energia da bateria para controlar os quatro motores. É essencial para o robô se **mover**.
-            </div>
-        </div>
-
-        <div class="component-card">
-            <div class="icon-placeholder"><i class="fas fa-car-side"></i></div>
-            <h2>A Estrutura: Chassi e Motores 4WD</h2>
-            <p>O corpo físico (chassi) e a tração total nas quatro rodas para estabilidade.</p>
-            <button class="toggle-btn" data-info="chassi">Ver Função</button>
-            <div class="detalhes" id="chassi-info">
-                **Função Direta:** O **Chassi** é a base onde tudo é montado. Os **Motores 4WD** (Quatro Rodas Motrizes) garantem que todas as rodas empurrem o robô. Isso proporciona **máxima tração** e **estabilidade**, permitindo que o robô faça curvas rápidas e mantenha a linha com mais precisão do que os robôs com apenas duas rodas motrizes.
-            </div>
-        </div>
-        
-    </main>
-
-    <footer>
-        <p>Criado para Iniciantes em Robótica. Design e Explicações Diretas.</p>
-    </footer>
+    <div id="score-board">Pontuação: 0</div>
+    <div id="game-board"></div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const toggleButtons = document.querySelectorAll('.toggle-btn');
+        const MAP_SIZE = 20;
+        const TILE_SIZE = 30; // Correspondente ao CSS
+        const gameBoard = document.getElementById('game-board');
+        const scoreBoard = document.getElementById('score-board');
+        let score = 0;
 
-            toggleButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const infoId = button.getAttribute('data-info');
-                    const detalhesElement = document.getElementById(infoId + '-info');
+        // 0: Vazio, 1: Parede, 2: Ponto (Dot), 3: Pac-Man (Posição Inicial)
+        // Criando um mapa maior (20x20)
+        const map = [
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,1],
+            [1,2,1,1,1,2,1,1,2,1,1,2,1,1,1,2,1,1,2,1],
+            [1,2,1,1,1,2,1,1,2,2,2,2,1,1,1,2,1,1,2,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,2,1,1,1,2,1,2,1,1,1,1,1,2,1,2,1,1,2,1],
+            [1,2,2,2,2,2,1,2,2,2,2,2,1,2,2,2,2,2,2,1],
+            [1,1,1,1,1,2,1,1,1,1,1,2,1,2,1,1,1,1,1,1],
+            [0,0,0,0,1,2,1,2,2,2,2,2,1,2,1,0,0,0,0,0], // Espaço para Pac-Man (3)
+            [1,1,1,1,1,2,1,2,1,1,1,1,1,2,1,1,1,1,1,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,2,1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1,2,1],
+            [1,2,1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1,2,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,2,1],
+            [1,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,2,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        ];
+        
+        // Posição inicial do Pac-Man (adaptada ao mapa)
+        let pacman = {
+            x: 5,
+            y: 9,
+            direction: 'right'
+        };
 
-                    if (detalhesElement) {
-                        // Alterna o estado da classe 'active' para exibir/esconder
-                        detalhesElement.classList.toggle('active');
+        // 1. FUNÇÃO DE DESENHO
+        function drawMap() {
+            gameBoard.innerHTML = ''; // Limpa o tabuleiro
+            for (let y = 0; y < map.length; y++) {
+                for (let x = 0; x < map[y].length; x++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    
+                    const cellValue = map[y][x];
 
-                        // Atualiza o texto do botão
-                        if (detalhesElement.classList.contains('active')) {
-                            button.textContent = 'Esconder Explicação';
-                        } else {
-                            button.textContent = 'Ver Função';
-                        }
+                    if (cellValue === 1) {
+                        cell.classList.add('wall');
+                    } else if (cellValue === 2) {
+                        cell.classList.add('dot');
+                    } else if (cellValue === 0) {
+                        cell.classList.add('empty');
                     }
-                });
-            });
+                    
+                    // Adiciona o Pac-Man na sua posição atual
+                    if (y === pacman.y && x === pacman.x) {
+                        cell.classList.add('pacman', pacman.direction);
+                    }
+
+                    cell.dataset.x = x;
+                    cell.dataset.y = y;
+                    gameBoard.appendChild(cell);
+                }
+            }
+        }
+
+        // 2. FUNÇÃO DE MOVIMENTO
+        function movePacman(dx, dy, newDirection) {
+            const newX = pacman.x + dx;
+            const newY = pacman.y + dy;
+
+            // Verifica se a nova posição é válida (não é uma parede)
+            if (map[newY] && map[newY][newX] !== 1) {
+                // Remove a classe 'pacman' da posição antiga (opcional se redesenhar tudo)
+                // O drawMap() já faz isso, mas é bom ter a lógica de colisão aqui.
+
+                pacman.x = newX;
+                pacman.y = newY;
+                pacman.direction = newDirection;
+
+                // Lógica de comer ponto
+                if (map[newY][newX] === 2) {
+                    map[newY][newX] = 0; // Torna o ponto vazio
+                    score += 10;
+                    scoreBoard.textContent = `Pontuação: ${score}`;
+                }
+
+                drawMap(); // Redesenha o mapa com o Pac-Man na nova posição
+            }
+        }
+
+        // 3. FUNÇÃO DE CONTROLE
+        document.addEventListener('keydown', (e) => {
+            switch (e.key) {
+                case 'ArrowUp':
+                    movePacman(0, -1, 'up');
+                    break;
+                case 'ArrowDown':
+                    movePacman(0, 1, 'down');
+                    break;
+                case 'ArrowLeft':
+                    movePacman(-1, 0, 'left');
+                    break;
+                case 'ArrowRight':
+                    movePacman(1, 0, 'right');
+                    break;
+            }
         });
+
+        // Inicializa o jogo
+        drawMap();
     </script>
 </body>
 </html>

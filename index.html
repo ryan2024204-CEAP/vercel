@@ -3,231 +3,243 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Robótica | Carrinho Seguidor de Linha 4WD & 2WD</title>
+  <title>Carrinho Seguidor de Linha - Componentes Explicados</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0d1117;
+      --fundo: #0a0e17;
       --card: #161b22;
-      --texto: #e6edf3;
-      --destaque: #39ff14;
+      --texto: #c9d1d9;
+      --verde: #00ff88;
       --borda: #30363d;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: var(--bg);
+      background: var(--fundo);
       color: var(--texto);
       font-family: 'Roboto Mono', monospace;
       line-height: 1.7;
-      padding: 20px 0;
     }
 
     header {
       text-align: center;
-      padding: 60px 20px;
-      background: linear-gradient(180deg, #0f1620, transparent);
-      border-bottom: 1px solid var(--borda);
+      padding: 80px 20px 60px;
+      background: linear-gradient(to bottom, #0f1620, transparent);
     }
 
     h1 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 3.2rem;
-      color: var(--destaque);
-      text-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
-      margin-bottom: 15px;
+      font-size: 3.5rem;
+      color: var(--verde);
+      text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
     }
 
-    .subtitle {
-      font-size: 1.3rem;
+    .subtitulo {
+      font-size: 1.4rem;
+      margin-top: 15px;
       opacity: 0.9;
     }
 
     .container {
       max-width: 1200px;
-      margin: 50px auto;
-      padding: 0 20px;
+      margin: 0 auto;
+      padding: 20px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 28px;
+      margin-top: 30px;
     }
 
     .card {
       background: var(--card);
       border: 1px solid var(--borda);
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
       transition: all 0.4s ease;
       cursor: pointer;
     }
 
     .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 0 30px rgba(57, 255, 20, 0.2);
-      border-color: var(--destaque);
+      transform: translateY(-12px);
+      border-color: var(--verde);
+      box-shadow: 0 0 30px rgba(0, 255, 136, 0.25);
     }
 
     .card img {
       width: 100%;
-      height: 180px;
+      height: 190px;
       object-fit: cover;
-      border-bottom: 1px solid var(--borda);
     }
 
-    .card-content {
-      padding: 20px;
+    .conteudo {
+      padding: 22px;
     }
 
     .card h3 {
       font-family: 'Orbitron', sans-serif;
-      color: var(--destaque);
-      font-size: 1.4rem;
+      color: var(--verde);
+      font-size: 1.5rem;
       margin-bottom: 10px;
     }
 
     .card p {
-      font-size: 0.95rem;
+      font-size: 1rem;
       opacity: 0.9;
-    }
-
-    .detalhes {
-      display: none;
-      background: #0d1117;
-      padding: 20px;
-      border-top: 1px solid var(--destaque);
-      font-size: 0.95rem;
-      line-height: 1.8;
-      color: #b3ffb3;
-    }
-
-    .detalhes.show { display: block; animation: fade 0.5s; }
-
-    @keyframes fade {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    footer {
-      text-align: center;
-      padding: 50px 20px;
-      margin-top: 80px;
-      color: #666;
-      font-size: 0.9rem;
     }
 
     .tag {
       display: inline-block;
       background: #21262d;
-      color: var(--destaque);
-      padding: 4px 10px;
-      border-radius: 20px;
+      color: var(--verde);
       font-size: 0.8rem;
-      margin-top: 10px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-top: 12px;
+    }
+
+    .detalhes {
+      display: none;
+      padding: 22px;
+      background: #0d1117;
+      border-top: 1px solid var(--verde);
+      color: #a8ffce;
+      font-size: 0.98rem;
+      line-height: 1.8;
+    }
+
+    .detalhes.mostrar {
+      display: block;
+      animation: aparecer 0.5s ease;
+    }
+
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      text-align: center;
+      padding: 60px 20px 30px;
+      color: #666;
+      font-size: 0.95rem;
+      margin-top: 80px;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>LINE FOLLOWER</h1>
-    <p class="subtitle">Componentes do Carrinho Seguidor de Linha 4WD e 2WD</p>
+    <h1>SEGUE LINHA</h1>
+    <p class="subtitulo">Tudo sobre os componentes do carrinho seguidor de linha 4WD e 2WD</p>
   </header>
 
   <div class="container">
     <div class="grid">
 
-      <!-- Chassi -->
-      <div class="card" onclick="toggle(this)">
-        <img src="https://i.imgur.com/3Xz9K8P.jpg" alt="Chassi">
-        <div class="card-content">
-          <h3>01. Chassi</h3>
-          <p>Estrutura base do robô (acrílico, alumínio ou ABS).</p>
+      <!-- 1. Chassi -->
+      <div class="card" onclick="abrir(this)">
+        <img src="https://i.imgur.com/3Xz9K8P.jpg" alt="Chassi do carrinho">
+        <div class="conteudo">
+          <h3>Chassi</h3>
+          <p>Estrutura principal do robô</p>
           <span class="tag">4WD e 2WD</span>
         </div>
         <div class="detalhes">
-          Suporta todos os componentes. Em 4WD é mais robusto para 4 motores. Em 2WD é mais leve e simples. Possui furos padrão para fixação.
+          O chassi é o "esqueleto" do carrinho. Pode ser de acrílico, alumínio ou plástico ABS. Possui furos padronizados para fixar motores, sensores e placa.  
+          No 4WD é mais reforçado para suportar 4 motores. No 2WD é mais leve e simples.
         </div>
       </div>
 
-      <!-- Motores -->
-      <div class="card" onclick="toggle(this)">
-        <img src="https://i.imgur.com/9qW5p0K.jpg" alt="Motor DC">
-        <div class="card-content">
-          <h3>02. Motores DC com Redução</h3>
-          <p>Motores amarelos 3-12V com caixa de engrenagens.</p>
+      <!-- 2. Motores -->
+      <div class="card" onclick="abrir(this)">
+        <img src="https://i.imgur.com/9qW5p0K.jpg" alt="Motor DC com redução">
+        <div class="conteudo">
+          <h3>Motores DC com Redução</h3>
+          <p>Os famosos motores amarelos</p>
           <span class="tag">4WD: 4 motores | 2WD: 2 motores</span>
         </div>
         <div class="detalhes">
-          Redução comum: 48:1, 100:1 ou 200:1. A caixa diminui RPM e aumenta torque. Em 4WD todas as rodas têm tração → mais força e estabilidade.
+          Motores de 3 a 12V com caixa de redução (48:1, 100:1, 200:1 etc).  
+          A redução diminui a velocidade e aumenta muito o torque.  
+          No 4WD todas as rodas são motrizes → mais tração e estabilidade. No 2WD só duas rodas têm motor.
         </div>
       </div>
 
-      <!-- Driver de Motor -->
-      <div class="card" onclick="toggle(this)">
-        <img src="https://i.imgur.com/Hs8kJ5v.jpg" alt="L298N">
-        <div class="card-content">
-          <h3>03. Driver de Motor</h3>
-          <p>L298N ou L9110S – controla velocidade e direção.</p>
-          <span class="tag">PWM + Pontes H</span>
+      <!-- 3. Driver de Motor -->
+      <div class="card" onclick="abrir(this)">
+        <img src="https://i.imgur.com/Hs8kJ5v.jpg" alt="Driver L298N">
+        <div class="conteudo">
+          <h3>Driver de Motor</h3>
+          <p>L298N ou L9110S</p>
+          <span class="tag">Controle de velocidade e direção</span>
         </div>
         <div class="detalhes">
-          Recebe sinais do Arduino e entrega corrente alta aos motores. L298N suporta até 2A por canal (ideal 4WD). Protege o microcontrolador.
+          Controla os motores com segurança. Recebe sinais do Arduino (PWM para velocidade e pinos digitais para sentido).  
+          O L298N é mais robusto (até 2A por canal) — ideal para 4WD. O L9110S é menor e suficiente para 2WD.
         </div>
       </div>
 
-      <!-- Sensores de Linha -->
-      <div class="card" onclick="toggle(this)">
-        <img src="https://i.imgur.com/J6pR9mX.jpg" alt="Sensor IR">
-        <div class="card-content">
-          <h3>04. Sensores Infravermelhos</h3>
-          <p>TCRT5000 ou array de 3-8 sensores.</p>
-          <span class="tag">Detecta contraste</span>
+      <!-- 4. Sensores de Linha -->
+      <div class="card" onclick="abrir(this)">
+        <img src="https://i.imgur.com/J6pR9mX.jpg" alt="Sensor TCRT5000">
+        <div class="conteudo">
+          <h3>Sensores Infravermelhos</h3>
+          <p>Detectam a linha no chão</p>
+          <span class="tag">TCRT5000 ou array de 3-8 sensores</span>
         </div>
         <div class="detalhes">
-          Emissor IR + fototransistor. Linha preta absorve luz → sinal baixo. Fundo branco reflete → sinal alto. Usado com algoritmo PID para seguir com precisão.
+          Emitem luz infravermelha e medem o reflexo.  
+          Linha preta = absorve luz → sinal baixo  
+          Fundo branco = reflete luz → sinal alto  
+          O algoritmo PID usa esses valores para manter o carrinho exatamente na linha.
         </div>
       </div>
 
-      <!-- Arduino -->
-      <div class="card" onclick="toggle(this)">
+      <!-- 5. Arduino -->
+      <div class="card" onclick="abrir(this)">
         <img src="https://i.imgur.com/8Qz7pQv.jpg" alt="Arduino Nano">
-        <div class="card-content">
-          <h3>05. Arduino (Nano ou Uno)</h3>
-          <p>Cérebro do robô.</p>
-          <span class="tag">Lógica + PID</span>
+        <div class="conteudo">
+          <h3>Arduino (Nano ou Uno)</h3>
+          <p>O cérebro do robô</p>
+          <span class="tag">Executa o código de controle</span>
         </div>
         <div class="detalhes">
-          Lê sensores a cada milissegundo, calcula erro e ajusta velocidade dos motores com controle PID. Nano é o mais usado por ser compacto.
+          Lê os sensores centenas de vezes por segundo, calcula o erro em relação à linha e ajusta a velocidade de cada motor usando controle PID.  
+          O Arduino Nano é o mais usado por ser pequeno e leve.
         </div>
       </div>
 
-      <!-- Bateria -->
-      <div class="card" onclick="toggle(this)">
+      <!-- 6. Bateria -->
+      <div class="card" onclick="abrir(this)">
         <img src="https://i.imgur.com/0wL9vRt.jpg" alt="Bateria LiPo">
-        <div class="card-content">
-          <h3>06. Bateria + Regulador</h3>
-          <p>LiPo 7.4V ou 6x AA.</p>
-          <span class="tag">Energia autônoma</span>
+        <div class="conteudo">
+          <h3>Bateria e Regulador</h3>
+          <p>Fonte de energia autônoma</p>
+          <span class="tag">LiPo 7.4V ou 6 pilhas AA</span>
         </div>
         <div class="detalhes">
-          LiPo 2S (7.4V) + módulo buck para 5V/6V é o mais eficiente. Precisa de chave liga/desliga e proteção BMS.
+          A melhor opção é bateria LiPo 2S (7.4V) + módulo conversor (buck) para 5V ou 6V.  
+          Também é comum usar 6 pilhas AA (9V total).  
+          Sempre use chave liga/desliga e proteção contra curto-circuito.
         </div>
       </div>
 
-      <!-- Roda Louca (apenas 2WD) -->
-      <div class="card" onclick="toggle(this)">
-        <img src="https://i.imgur.com/2kM9pL1.jpg" alt="Caster">
-        <div class="card-content">
-          <h3>07. Roda Louca (Caster)</h3>
-          <p>Só em versões 2WD.</p>
+      <!-- 7. Roda Louca (apenas 2WD) -->
+      <div class="card" onclick="abrir(this)">
+        <img src="https://i.imgur.com/2kM9pL1.jpg" alt="Roda louca">
+        <div class="conteudo">
+          <h3>Roda Louca (Caster)</h3>
+          <p>Só nos modelos 2WD</p>
           <span class="tag">Apenas 2WD</span>
         </div>
         <div class="detalhes">
-          Equilibra o carrinho quando só duas rodas são motrizes. Gira 360° livremente. Não existe em 4WD (todas as rodas tocam o chão).
+          Equilibra o carrinho quando só duas rodas têm motor.  
+          Gira 360° livremente. Não é necessária no 4WD porque todas as quatro rodas tocam o chão e dão suporte.
         </div>
       </div>
 
@@ -235,13 +247,13 @@
   </div>
 
   <footer>
-    <p>Robótica Educacional Brasil © 2025 – Feito com 39ff14 de neon</p>
+    <p>Carrinho Seguidor de Linha • Robótica Educacional Brasil • 2025</p>
   </footer>
 
   <script>
-    function toggle(card) {
+    function abrir(card) {
       const detalhes = card.querySelector('.detalhes');
-      detalhes.classList.toggle('show');
+      detalhes.classList.toggle('mostrar');
     }
   </script>
 </body>

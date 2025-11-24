@@ -1,260 +1,289 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carrinho Seguidor de Linha - Componentes Explicados</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --fundo: #0a0e17;
-      --card: #161b22;
-      --texto: #c9d1d9;
-      --verde: #00ff88;
-      --borda: #30363d;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚙️ Guia Simples: Carrinho Seguidor de Linha</title>
+    
+    <style>
+        /* Variáveis CSS para Cores */
+        :root {
+            --cor-principal: #3498db; /* Azul Tecnologia */
+            --cor-secundaria: #2ecc71; /* Verde Ação */
+            --cor-fundo: #ecf0f1; /* Cinza Claro */
+            --cor-texto: #34495e;
+            --cor-card: white;
+            --sombra-leve: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif; /* Fonte moderna */
+            margin: 0;
+            padding: 0;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            line-height: 1.6;
+        }
 
-    body {
-      background: var(--fundo);
-      color: var(--texto);
-      font-family: 'Roboto Mono', monospace;
-      line-height: 1.7;
-    }
+        header {
+            background-color: var(--cor-principal);
+            color: var(--cor-card);
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
 
-    header {
-      text-align: center;
-      padding: 80px 20px 60px;
-      background: linear-gradient(to bottom, #0f1620, transparent);
-    }
+        header h1 {
+            margin-bottom: 5px;
+            font-size: 2.5em;
+        }
 
-    h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 3.5rem;
-      color: var(--verde);
-      text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
-    }
+        main {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
 
-    .subtitulo {
-      font-size: 1.4rem;
-      margin-top: 15px;
-      opacity: 0.9;
-    }
+        /* Layout Grid para os Cards */
+        .componentes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
+        .card {
+            background-color: var(--cor-card);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--sombra-leve);
+            border-left: 5px solid var(--cor-principal);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            height: 100%; /* Garante altura uniforme */
+        }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 28px;
-      margin-top: 30px;
-    }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--borda);
-      border-radius: 14px;
-      overflow: hidden;
-      transition: all 0.4s ease;
-      cursor: pointer;
-    }
+        .card h3 {
+            color: var(--cor-principal);
+            margin-top: 0;
+            border-bottom: 2px solid var(--cor-fundo);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card h3 svg {
+            margin-right: 10px;
+            width: 24px;
+            height: 24px;
+        }
 
-    .card:hover {
-      transform: translateY(-12px);
-      border-color: var(--verde);
-      box-shadow: 0 0 30px rgba(0, 255, 136, 0.25);
-    }
+        .card p {
+            font-size: 0.95em;
+        }
 
-    .card img {
-      width: 100%;
-      height: 190px;
-      object-fit: cover;
-    }
+        /* Modal (Janela Popup de Detalhes) */
+        .modal {
+            display: none; /* Escondido por padrão */
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7); /* Fundo escuro */
+            backdrop-filter: blur(5px);
+        }
 
-    .conteudo {
-      padding: 22px;
-    }
+        .modal-conteudo {
+            background-color: var(--cor-card);
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(-20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
 
-    .card h3 {
-      font-family: 'Orbitron', sans-serif;
-      color: var(--verde);
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-    }
+        .fechar-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
 
-    .card p {
-      font-size: 1rem;
-      opacity: 0.9;
-    }
+        .fechar-btn:hover,
+        .fechar-btn:focus {
+            color: #ff4500;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .modal-conteudo h2 {
+            color: var(--cor-principal);
+            border-bottom: 2px solid var(--cor-fundo);
+            padding-bottom: 10px;
+        }
 
-    .tag {
-      display: inline-block;
-      background: #21262d;
-      color: var(--verde);
-      font-size: 0.8rem;
-      padding: 5px 12px;
-      border-radius: 20px;
-      margin-top: 12px;
-    }
-
-    .detalhes {
-      display: none;
-      padding: 22px;
-      background: #0d1117;
-      border-top: 1px solid var(--verde);
-      color: #a8ffce;
-      font-size: 0.98rem;
-      line-height: 1.8;
-    }
-
-    .detalhes.mostrar {
-      display: block;
-      animation: aparecer 0.5s ease;
-    }
-
-    @keyframes aparecer {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    footer {
-      text-align: center;
-      padding: 60px 20px 30px;
-      color: #666;
-      font-size: 0.95rem;
-      margin-top: 80px;
-    }
-  </style>
+        /* Efeito no footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--cor-texto);
+            color: var(--cor-fundo);
+            margin-top: 40px;
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    <h1>SEGUE LINHA</h1>
-    <p class="subtitulo">Tudo sobre os componentes do carrinho seguidor de linha 4WD e 2WD</p>
-  </header>
+    <header>
+        <h1>Explore o Carrinho Seguidor de Linha</h1>
+        <p>Clique em cada componente para ver sua função detalhada.</p>
+    </header>
 
-  <div class="container">
-    <div class="grid">
+    <main>
+        <section class="componentes-grid">
+            
+            <div class="card" onclick="abrirModal('arduino')">
+                <h3><svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V5h2v6z"/></svg>Arduino Uno</h3>
+                <p>O **Cérebro** do robô. Ele recebe informações dos sensores e decide para onde o carrinho deve ir.</p>
+            </div>
+            
+            <div class="card" onclick="abrirModal('sensor')">
+                <h3><svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-6h-2v6zm0-8h2V5h-2v4z"/></svg>Sensor Seguidor de Linha</h3>
+                <p>Os **Olhos** do robô. Usam luz infravermelha para distinguir a linha escura do chão claro.</p>
+            </div>
 
-      <!-- 1. Chassi -->
-      <div class="card" onclick="abrir(this)">
-        <img src="https://i.imgur.com/3Xz9K8P.jpg" alt="Chassi do carrinho">
-        <div class="conteudo">
-          <h3>Chassi</h3>
-          <p>Estrutura principal do robô</p>
-          <span class="tag">4WD e 2WD</span>
-        </div>
-        <div class="detalhes">
-          O chassi é o "esqueleto" do carrinho. Pode ser de acrílico, alumínio ou plástico ABS. Possui furos padronizados para fixar motores, sensores e placa.  
-          No 4WD é mais reforçado para suportar 4 motores. No 2WD é mais leve e simples.
-        </div>
-      </div>
+            <div class="card" onclick="abrirModal('shield')">
+                <h3><svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 15H9v-2h2v2zm0-4H9V8h2v4z"/></svg>Motor Shield (Ponte H)</h3>
+                <p>O **Amplificador de Força**. Ele pega o sinal do Arduino e usa a energia da bateria para ligar os motores.</p>
+            </div>
 
-      <!-- 2. Motores -->
-      <div class="card" onclick="abrir(this)">
-        <img src="https://i.imgur.com/9qW5p0K.jpg" alt="Motor DC com redução">
-        <div class="conteudo">
-          <h3>Motores DC com Redução</h3>
-          <p>Os famosos motores amarelos</p>
-          <span class="tag">4WD: 4 motores | 2WD: 2 motores</span>
-        </div>
-        <div class="detalhes">
-          Motores de 3 a 12V com caixa de redução (48:1, 100:1, 200:1 etc).  
-          A redução diminui a velocidade e aumenta muito o torque.  
-          No 4WD todas as rodas são motrizes → mais tração e estabilidade. No 2WD só duas rodas têm motor.
-        </div>
-      </div>
+            <div class="card" onclick="abrirModal('motores')">
+                <h3><svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-4h-2v4zm0-6h2V7h-2v4z"/></svg>Motores e Rodas</h3>
+                <p>Os **Músculos**. Os **motores** giram as **rodas** (quatro no 4WD), fazendo o carrinho andar.</p>
+            </div>
+            
+            <div class="card" onclick="abrirModal('energia')">
+                <h3><svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 7h2v6h-2z"/></svg>Energia e Fios</h3>
+                <p>O **Combustível e Conexões**. Inclui baterias, porta pilhas e os fios que ligam tudo.</p>
+            </div>
 
-      <!-- 3. Driver de Motor -->
-      <div class="card" onclick="abrir(this)">
-        <img src="https://i.imgur.com/Hs8kJ5v.jpg" alt="Driver L298N">
-        <div class="conteudo">
-          <h3>Driver de Motor</h3>
-          <p>L298N ou L9110S</p>
-          <span class="tag">Controle de velocidade e direção</span>
-        </div>
-        <div class="detalhes">
-          Controla os motores com segurança. Recebe sinais do Arduino (PWM para velocidade e pinos digitais para sentido).  
-          O L298N é mais robusto (até 2A por canal) — ideal para 4WD. O L9110S é menor e suficiente para 2WD.
-        </div>
-      </div>
+            <div class="card" onclick="abrirModal('chassi-codigo')">
+                <h3><svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 7h2v2h-2zm0 4h2v6h-2z"/></svg>Chassi e Lógica (Código)</h3>
+                <p>O **Esqueleto** e as **Regras**. A base física do robô e as instruções que o guiam.</p>
+            </div>
 
-      <!-- 4. Sensores de Linha -->
-      <div class="card" onclick="abrir(this)">
-        <img src="https://i.imgur.com/J6pR9mX.jpg" alt="Sensor TCRT5000">
-        <div class="conteudo">
-          <h3>Sensores Infravermelhos</h3>
-          <p>Detectam a linha no chão</p>
-          <span class="tag">TCRT5000 ou array de 3-8 sensores</span>
+        </section>
+    </main>
+    
+    <div id="modalDetalhes" class="modal" onclick="fecharModalExterno(event)">
+        <div class="modal-conteudo">
+            <span class="fechar-btn" onclick="fecharModal()">&times;</span>
+            <h2 id="modalTitulo"></h2>
+            <p id="modalDescricao"></p>
         </div>
-        <div class="detalhes">
-          Emitem luz infravermelha e medem o reflexo.  
-          Linha preta = absorve luz → sinal baixo  
-          Fundo branco = reflete luz → sinal alto  
-          O algoritmo PID usa esses valores para manter o carrinho exatamente na linha.
-        </div>
-      </div>
-
-      <!-- 5. Arduino -->
-      <div class="card" onclick="abrir(this)">
-        <img src="https://i.imgur.com/8Qz7pQv.jpg" alt="Arduino Nano">
-        <div class="conteudo">
-          <h3>Arduino (Nano ou Uno)</h3>
-          <p>O cérebro do robô</p>
-          <span class="tag">Executa o código de controle</span>
-        </div>
-        <div class="detalhes">
-          Lê os sensores centenas de vezes por segundo, calcula o erro em relação à linha e ajusta a velocidade de cada motor usando controle PID.  
-          O Arduino Nano é o mais usado por ser pequeno e leve.
-        </div>
-      </div>
-
-      <!-- 6. Bateria -->
-      <div class="card" onclick="abrir(this)">
-        <img src="https://i.imgur.com/0wL9vRt.jpg" alt="Bateria LiPo">
-        <div class="conteudo">
-          <h3>Bateria e Regulador</h3>
-          <p>Fonte de energia autônoma</p>
-          <span class="tag">LiPo 7.4V ou 6 pilhas AA</span>
-        </div>
-        <div class="detalhes">
-          A melhor opção é bateria LiPo 2S (7.4V) + módulo conversor (buck) para 5V ou 6V.  
-          Também é comum usar 6 pilhas AA (9V total).  
-          Sempre use chave liga/desliga e proteção contra curto-circuito.
-        </div>
-      </div>
-
-      <!-- 7. Roda Louca (apenas 2WD) -->
-      <div class="card" onclick="abrir(this)">
-        <img src="https://i.imgur.com/2kM9pL1.jpg" alt="Roda louca">
-        <div class="conteudo">
-          <h3>Roda Louca (Caster)</h3>
-          <p>Só nos modelos 2WD</p>
-          <span class="tag">Apenas 2WD</span>
-        </div>
-        <div class="detalhes">
-          Equilibra o carrinho quando só duas rodas têm motor.  
-          Gira 360° livremente. Não é necessária no 4WD porque todas as quatro rodas tocam o chão e dão suporte.
-        </div>
-      </div>
-
     </div>
-  </div>
 
-  <footer>
-    <p>Carrinho Seguidor de Linha • Robótica Educacional Brasil • 2025</p>
-  </footer>
+    <footer>
+        <p>&copy; 2025 - Robótica Simples. Projeto Educacional.</p>
+    </footer>
 
-  <script>
-    function abrir(card) {
-      const detalhes = card.querySelector('.detalhes');
-      detalhes.classList.toggle('mostrar');
-    }
-  </script>
+    <script>
+        const detalhesComponentes = {
+            'arduino': {
+                titulo: '🧠 Arduino Uno: O Cérebro',
+                descricao: `
+                    O Arduino Uno é um pequeno computador programável.
+                    <br><br>
+                    <strong>FUNÇÃO:</strong> Ler os sinais dos sensores ("Estamos fora da linha?"), processar a lógica que você escreveu no **código** e enviar comandos de controle para o Motor Shield ("Vire a roda esquerda!"). Ele é o responsável por toda a tomada de decisão do robô.
+                `
+            },
+            'sensor': {
+                titulo: '👁️ Sensor Seguidor de Linha (Infravermelho)',
+                descricao: `
+                    O robô precisa de 'olhos' para ver a linha. Estes sensores usam luz que o olho humano não vê (infravermelha - IV).
+                    <br><br>
+                    <strong>FUNÇÃO:</strong> Eles detectam a diferença entre o preto e o branco. A cor clara **reflete** a luz IV de volta, e a cor escura (a linha) a **absorve**. O sensor envia essa informação (sim ou não) para o Arduino.
+                `
+            },
+            'shield': {
+                titulo: '⚡ Motor Shield (Ponte H): O Amplificador',
+                descricao: `
+                    O Arduino não consegue fornecer a **força (corrente)** necessária para mover motores grandes. O Motor Shield resolve isso.
+                    <br><br>
+                    <strong>FUNÇÃO:</strong> Ele age como um **interruptor reforçado**. Recebe o sinal fraco de controle do Arduino e usa a energia da **bateria externa** (mais forte) para ligar e desligar os motores nas direções corretas.
+                `
+            },
+            'motores': {
+                titulo: '⚙️ Motores e Rodas: Músculos e Pneus',
+                descricao: `
+                    Os **Motores DC** (corrente contínua) são os atuadores, eles convertem energia elétrica em movimento de rotação.
+                    <br><br>
+                    <strong>FUNÇÃO:</strong> São os **músculos** que giram as **rodas**. O sistema 4WD (4 Wheel Drive) significa tração nas 4 rodas, o que garante mais **estabilidade e força** nas curvas da linha.
+                `
+            },
+            'energia': {
+                titulo: '🔋 Energia e Fios: Combustível e Conexões',
+                descricao: `
+                    O robô precisa de duas fontes de energia:
+                    <br>
+                    1. **Porta Pilhas (Motores):** Fonte de alta corrente para o Motor Shield e motores. É a "gasolina" forte.
+                    2. **Bateria 9V (Arduino):** Fonte de energia para a placa lógica.
+                    <br><br>
+                    Os **Fios Jumpers** são os **nervos** que levam os sinais de controle e a energia entre todos os componentes.
+                `
+            },
+            'chassi-codigo': {
+                titulo: '🧱 Chassi, Placa de Ensaio e Código',
+                descricao: `
+                    O **Chassi** é o **esqueleto**, a estrutura onde tudo é fixado.
+                    <br>
+                    A **Placa de Ensaio (Protoboard)** é um painel simples para organizar e testar ligações temporárias de fios.
+                    <br><br>
+                    O **Código** é a lista de **regras lógicas** (IF/ELSE) que você escreve no Arduino, dizendo exatamente o que fazer quando o sensor detecta ou perde a linha.
+                `
+            }
+        };
+
+        const modal = document.getElementById('modalDetalhes');
+        const modalTitulo = document.getElementById('modalTitulo');
+        const modalDescricao = document.getElementById('modalDescricao');
+
+        // Função para abrir o modal
+        window.abrirModal = (componente) => {
+            const dados = detalhesComponentes[componente];
+            modalTitulo.innerHTML = dados.titulo;
+            modalDescricao.innerHTML = dados.descricao;
+            modal.style.display = 'block';
+        }
+
+        // Função para fechar o modal
+        window.fecharModal = () => {
+            modal.style.display = 'none';
+        }
+        
+        // Função para fechar o modal ao clicar fora (no fundo escuro)
+        window.fecharModalExterno = (event) => {
+            if (event.target === modal) {
+                fecharModal();
+            }
+        }
+    </script>
 </body>
 </html>
+
+
